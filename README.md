@@ -15,6 +15,8 @@ STACKMATCH - a website to find FAC alums and students by their technical stack s
 
 ### DB SCHEMA
 
+![visual database schema](https://i.imgur.com/NlozAp9.png)
+
 #### Table - users
 - primary key
 - handle
