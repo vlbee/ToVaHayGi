@@ -18,7 +18,7 @@ const router = (req, res) => {
     //TO DO: add paths: create or update profile
     else {
         res.writeHead(404, {'Content-Type': 'text/html'}); 
-        res.end('404 page not found'); 
+        res.end('<h1>404 page not found</h1>'); 
     }
 
 }
