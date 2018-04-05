@@ -1,7 +1,10 @@
-  // Generic Fetch Request
+// Variables
+var usersList = document.getElementById('js-users-list');
+
+// Generic Fetch Request
   function fetch(url, callback) {
     var xhr = new XMLHttpRequest();
-
+  
     xhr.addEventListener("load", function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         console.log("fetch is working", url);
@@ -18,14 +21,9 @@
 
 
   // User List Population
+  function populateUserList(userData) { 
 
-  var usersList = document.getElementById('js-users-list');
-
-  (function() {
-
-    var i = -1;
-    while (++i < 15) {
-
+    console.log(userData);
       var userCard = document.createElement('li');
       userCard.className = 'user-card';
 
@@ -50,13 +48,17 @@
       var userContact = document.createElement('p');
       userCard.className = 'user-card';
 
-
       var skillList = ['JavaScript',,]
       var userCard = document.createElement('article');
       userCard.className = 'user-card';
       var userCard = document.createElement('article');
       userCard.className = 'user-card';
+  }
 
-    }
+  
+// IFFE on load
+  (function() {
+
+   fetch('/userlist', populateUserList);
 
   })();
