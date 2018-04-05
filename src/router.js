@@ -1,18 +1,18 @@
 const { staticHandler, listHandler, profileHandler } = require('./handler'); 
 
 const router = (req, res) => {
-    const { url } = req; 
+    const endpoint = req.url; 
     
-    if (url === '/') {
+    if (endpoint === '/') {
         staticHandler(req, res); 
     }
-    else if (url.indexOf('public') !== -1) {
+    else if (endpoint.indexOf('public') !== -1) {
         staticHandler(req, res); 
     }
-    else if (url === '/user_list') {
+    else if (endpoint === '/user_list') {
         listHandler(req, res); 
     }
-    else if (url === '/user_profile') {
+    else if (endpoint === '/user_profile') {
         profileHandler(req, res); 
     }
     //TO DO: add paths: create or update profile
