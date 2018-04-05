@@ -54,6 +54,9 @@ STACKMATCH - a website to find FAC alums and students by their technical stack s
 - router.js
 - handlers.js
 - SQLqueryLogic.js
+- Test Folder
+    - sqlquerylogic.test.js
+    - db.test.js
 - DB Folder
     - db_connect.js
     - db_build.js
@@ -62,3 +65,4 @@ STACKMATCH - a website to find FAC alums and students by their technical stack s
     - getListData
     - getProfileData
     - postProfileData (STRETCH)
+  
