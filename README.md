@@ -41,6 +41,8 @@ STACKMATCH - a website to find FAC alums and students by their technical stack s
 
 ### ARCHICTECTURE
 
+![App architecture](https://i.imgur.com/nyCazrt.jpg) 
+
 #### Public
 
 - index.html (landing page)
