@@ -9,7 +9,7 @@ const port = process.env.PORT || 4000;
 const server = http.createServer(router); 
 
 server.listen(port, () => {
-    console.log('Server listening on port:', port); 
+    console.log(`Stack-match working at http://${host}:${port}`); 
 }); 
 
 
