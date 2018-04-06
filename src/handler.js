@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const getListData = require('./queries/getListData');
+const formatList = require('./queryLogic');
 
 const staticHandler = (req, res) => {
   console.log('Static handler reached');
