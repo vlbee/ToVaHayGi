@@ -2,63 +2,102 @@
 var usersList = document.getElementById('js-users-list');
 
 // Generic Fetch Request
-  function fetch(url, callback) {
-    var xhr = new XMLHttpRequest();
-  
-    xhr.addEventListener("load", function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        console.log("fetch is working", url);
-        var response = JSON.parse(xhr.responseText);
-        callback(response);
-      } else {
-        console.log("XHR error", xhr.readyState);
-      }
-    });
-    xhr.open('GET', url, true);
-    xhr.send();
+function fetch(url, callback) {
+  var xhr = new XMLHttpRequest();
+
+  xhr.addEventListener("load", function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      console.log("fetch is working", url);
+      var response = JSON.parse(xhr.responseText);
+      callback(response);
+    } else {
+      console.log("XHR error", xhr.readyState);
+    }
+  });
+  xhr.open('GET', url, true);
+  xhr.send();
+}
+
+
+
+// User List Population
+
+function populateUserSkills(userSkills, skillsUl) {
+  if (userSkills) {
+    userSkills.forEach(function (userSkill) {
+      var skill = document.createElement('li');
+      skill.className = 'usercard__skill';
+      skill.textContent = userSkill;
+      skillsUl.appendChild(skill);
+    })
   }
+};
+
+function createUserCard(user) {
+  var card = document.createElement('article');
+  card.className = 'usercard';
+
+  var cardHeader = document.createElement('header');
+  cardHeader.className = 'usercard__header';
+  var name = document.createElement('h2');
+  name.className = 'usercard__headername';
+  var cohort = document.createElement('span');
+  cohort.className = 'usercard__headercohort';
+  var handle = document.createElement('span');
+  handle.className = 'usercard__headerhandle';
+  cardHeader.appendChild(name);
+  cardHeader.appendChild(cohort);
+  cardHeader.appendChild(handle);
+
+  var cardSkills = document.createElement('section');
+  cardSkills.className = 'usercard__body';
+  var skillsList = document.createElement('ul');
+  skillsList.className = 'usercard__bodyskills';
+  populateUserSkills(user.skills, skillsList);
+  cardSkills.appendChild(skillsList);
+
+  var cardFooter = document.createElement('footer');
+  cardFooter.className = 'usercard__footer';
+  var location = document.createElement('span');
+  location.className = 'usercard__footerlocation';
+  var status = document.createElement('span');
+  status.className = 'usercard__footerstatus';
+  var contact = document.createElement('span');
+  contact.className = 'usercard__footercontact';
+  cardFooter.appendChild(location);
+  cardFooter.appendChild(status);
+  cardFooter.appendChild(contact);
+
+  //Appending things
+  card.appendChild(cardHeader);
+  card.appendChild(cardSkills);
+  card.appendChild(cardFooter);
+
+  //Adding text content
+  name.textContent = user.first_name + ' ' + user.surname;
+  handle.textContent = user.handle;  
+  cohort.textContent = user.cohort;
+
+  location.textContent = user.city;
+  status.textContent = user.work_looking_status;
+  // contact.textContent = user.contact;
+  return card;
+}
+
+function populateUserList(userData) {
+  userData.forEach(function (user) {
+    var userCard = createUserCard(user);
+    usersList.appendChild(userCard);
+  });
+
+}
 
 
 
-  // User List Population
-  function populateUserList(userData) { 
 
-    console.log(userData);
-      var userCard = document.createElement('li');
-      userCard.className = 'user-card';
-
-      var userInfo = document.createElement('header');
-      userInfo.className = 'user-card-header';
-      var userName = document.createElement('h2');
-      userName.className = 'user-card';
-      var userCohort = document.createElement('p');
-      userCohort.className = 'user-card';
-
-      var userSkills = document.createElement('section');
-      userSkills.className = 'user-card-body';
-      var userSkillsList = document.createElement('ul');
-      userSkillsList.className = 'user-card';
-
-      var userContact = document.createElement('footer');
-      userContact.className = 'user-card-footer';
-      var userLocation = document.createElement('p');
-      userLocation.className = 'user-card';
-      var userStatus = document.createElement('p');
-      userStatus.className = 'user-card';
-      var userContact = document.createElement('p');
-      userCard.className = 'user-card';
-
-      var skillList = ['JavaScript',,]
-      var userCard = document.createElement('article');
-      userCard.className = 'user-card';
-      var userCard = document.createElement('article');
-      userCard.className = 'user-card';
-  }
-
-  
 // IFFE on load
-  (function() {
+(function () {
 
-   fetch('/userlist', populateUserList);
+  fetch('/userlist', populateUserList);
 
-  })();
+})();
