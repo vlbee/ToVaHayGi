@@ -4,8 +4,7 @@ STACKMATCH - a website to find FAC alums and students by their technical stack s
 
 ### Instructions on how to run the project
 
-1.  `git clone https://github.com/fac-13/ToVaHayGi.git
-`
+1.  `git clone https://github.com/fac-13/ToVaHayGi.git`
     
 2.  `npm i`
     
