@@ -13,8 +13,8 @@ const router = (req, res) => {
     else if (endpoint === '/userlist') {
         listHandler(endpoint, res); 
     }
-    // else if (endpoint === '/userprofile') {
-    //     profileHandler(res, endpoint); 
+    // else if (endpoint === '/usernewprofile') {
+    //     profileHandler(endpoint, res); 
     // }
     //TO DO: add paths: create or update profile
     else {
