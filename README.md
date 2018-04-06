@@ -2,6 +2,25 @@
 
 STACKMATCH - a website to find FAC alums and students by their technical stack skills.
 
+### Instructions on how to run the project
+
+1.  `git clone https://github.com/fac-13/ToVaHayGi.git`
+    
+2.  `npm i`
+    
+3.  Set up a local database as per below instructions:
+    
+
+-   Connect to postgres, by typing `psql` in the terminal on MAC, and `sudo -u postgres psql` on ubuntu.
+-   Create the database by typing `CREATE DATABASE [the name of the database];`. (best not to use a hyphen `-` in the database name, as this can cause issues in the following steps)
+-   Create a superuser with a password by typing `CREATE USER [the new username] WITH SUPERUSER PASSWORD '[the password of the database]';` (the password needs to be in quotes, otherwise you get an error).
+-   Change ownership of the database to the new user by typing `ALTER DATABASE [name of the database] OWNER TO [the new username];`
+-   Add a config.env file in the root folder and add the database's url in this format: `DATABASE_URL = postgres://[username]:[password]@localhost:5432/[database]`. The database name needs to be in lower case.
+
+4.  Build the database by connecting to postgres and typing `\i` \+ correct path + `/ToVaHayGi/src/database/db_build.sql`
+5.  Exit psql and run `npm start`
+
+
 ### Goals
 
 1. Set up basic architecture, postgresQL schema.
