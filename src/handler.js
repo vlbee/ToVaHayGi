@@ -2,7 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const getListData = require('./queries/getListData');
-const formatList = require('./queryLogic');
+const postProfileData = require('./queries/postProfileData');
+
 
 const staticHandler = (req, res) => {
   console.log('Static handler reached');
@@ -45,7 +46,29 @@ const listHandler = (req, res) => {
 };
 
 const profileHandler = (req, res) => {
-  console.log('Profile handler reached');
-};
+  console.log("Profile handler reached"); 
+  let body = ''; 
+  req.on('data', (chunk) => {
+    body+=chunk; 
+  })
+  req.on('end', () => {
+    let values = querystring.parse(body); 
+    let result= Object.values(values); 
+    postProfileData(result, (error, response) => {
+      if (error) {
+        console.log("Error:", error); 
+        res.writeHead(500, {'Content-Type': 'text/html'}); 
+        res.end('<h1>Sorry there was an error</h1>');
+      }
+      else {
+        res.writeHead(200, {'Content-Type': 'text/html'}); 
+        res.end('Profile added to the database');
+      }
+
+    })
+  })
+
+}
+
 
 module.exports = { staticHandler, listHandler, profileHandler };
