@@ -45,7 +45,7 @@ const listHandler = (req, res) => {
   });
 };
 
-const profileHandler = (req, res) => {
+const newProfileHandler = (req, res) => {
   console.log("Profile handler reached"); 
   let body = ''; 
   req.on('data', (chunk) => {
@@ -72,5 +72,10 @@ const profileHandler = (req, res) => {
 
 }
 
+const profileHandler = (req, res) => {
+ console.log("Profile hadler reached"); 
+ 
+}
 
-module.exports = { staticHandler, listHandler, profileHandler };
+
+module.exports = { staticHandler, listHandler, newProfileHandler, profileHandler };
