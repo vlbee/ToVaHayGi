@@ -2,6 +2,8 @@
 
 Create a simple webapp for the FAC community, where FAC alums and students could connect with each other based on their technical stack skills. 
 
+--------------------
+
 ### User Stories
 
 1. As a user I can login to my account, or sign up and create a new accout. 
@@ -30,6 +32,8 @@ Create a simple webapp for the FAC community, where FAC alums and students could
 
 *Authentication Requirements to be added*
 
+--------------------
+
 ### Instructions on how to run the project locally
 
 1.  `git clone https://github.com/fac-13/ToVaHayGi.git`
@@ -48,6 +52,7 @@ Create a simple webapp for the FAC community, where FAC alums and students could
 4.  Build the database by connecting to postgres and typing `\i` \+ correct path + `/ToVaHayGi/src/database/db_build.sql`
 5.  Exit psql and run `npm start`
 
+--------------------
 
 ### Journey 
 
@@ -65,6 +70,8 @@ Create a simple webapp for the FAC community, where FAC alums and students could
 4. Ensure Testing and Code Coverage is addressed. 
 5. Fold down separate html pages into a Single-Page-App if appropriate - STRETCH GOAL
 6. Add User Projects to DB & UX - STRETCH GOAL
+
+--------------------
 
 ### DB SCHEMA
 
@@ -91,6 +98,8 @@ Create a simple webapp for the FAC community, where FAC alums and students could
 - user_primary_key
 - skill_primary key
 - start_date
+
+--------------------
 
 ### ARCHICTECTURE
 
