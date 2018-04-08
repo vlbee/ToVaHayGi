@@ -46,7 +46,7 @@ const listHandler = (req, res) => {
 };
 
 const newProfileHandler = (req, res) => {
-  console.log("Profile handler reached"); 
+  console.log("New profile handler reached"); 
   let body = ''; 
   req.on('data', (chunk) => {
     body+=chunk; 
@@ -63,19 +63,21 @@ const newProfileHandler = (req, res) => {
         res.end('<h1>Sorry there was an error</h1>');
       }
       else {
-        res.writeHead(200, {'Content-Type': 'text/html'}); 
-        res.end('Profile added to the database');
+        // res.writeHead(200, {'Content-Type': 'text/html'}); 
+        // res.end('Profile added to the database');
+      console.log("Handler response:", response); 
+      res.writeHead(303,{'Location': '/user_profile?handle=' + response});
+      res.end(console.log('Successful relocation to new profile'));
       }
-
     })
   })
-
 }
 
 const profileHandler = (req, res) => {
- console.log("Profile hadler reached"); 
- 
-}
+  console.log("Profile handler reached"); 
+  
+
+ }
 
 
 module.exports = { staticHandler, listHandler, newProfileHandler, profileHandler };

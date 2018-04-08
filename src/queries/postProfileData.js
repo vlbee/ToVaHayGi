@@ -7,13 +7,22 @@ const postProfileData = (values, cb)=> {
         values: values
     }
     
-    dbConnect.query(addNewUser, (err,res)=>{
+    dbConnect.query(addNewUser, (err)=>{
+        if (err){
+            return cb(err);  
+        }
+     
+        //get ID of new user
+        dbConnect.query("SELECT users.id FROM users WHERE handle ='" + values[0] +"'", (err,res) => {
         if (err){
             return cb(err); 
         }
-        cb(null, res); 
-        console.log("Insert new data:", res); 
+        let response = res.rows[0].id; 
+        cb(null, response); 
+        console.log("New user ID:", response); 
+        })
     })
+   
 }
 
 module.exports = postProfileData; 

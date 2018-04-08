@@ -6,17 +6,17 @@ const router = (req, res) => {
     if (endpoint === '/') {
         staticHandler('public/index.html', res) 
     }
-    else if (endpoint.indexOf('public') !== -1) {
-        staticHandler(endpoint, res); 
-    }
     else if (endpoint === '/user_list') {
         listHandler(endpoint, res); 
     }
     else if (endpoint === '/user_new_profile') {
         newProfileHandler(req, res); 
     }
-    else if (endpoint === '/user_profile'){
+    else if (endpoint.indexOf('/user_profile') !== -1){
         profileHandler(req, res); 
+    }
+    else if (endpoint.indexOf('public') !== -1) {
+        staticHandler(endpoint, res); 
     }
     else {
         res.writeHead(404, {'Content-Type': 'text/html'}); 

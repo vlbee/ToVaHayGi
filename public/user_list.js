@@ -1,5 +1,3 @@
-import './logic.js'; 
-
 // Variables
 var usersList = document.getElementById('js-users-list');
 
@@ -79,6 +77,6 @@ function populateUserList(userData) {
 // IFFE on load
 (function () {
 
-  fetch('/userlist', populateUserList);
+  fetch('/user_list', populateUserList);
 
 })();
