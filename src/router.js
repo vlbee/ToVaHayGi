@@ -9,7 +9,7 @@ const router = (req, res) => {
     else if (endpoint === '/user_list') {
         listHandler(endpoint, res); 
     }
-    else if (endpoint === '/user_new_profile') {
+    else if (endpoint === '/create_profile') {
         newProfileHandler(req, res); 
     }
     else if (endpoint.indexOf('/user_profile') !== -1){

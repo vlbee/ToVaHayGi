@@ -29,7 +29,7 @@ const staticHandler = (req, res) => {
 };
 
 const listHandler = (req, res) => {
-  console.log('List handler reached' );
+  console.log('List handler reached');
   getListData((error, result) => {
     if (error) {
       res.writeHead(500, 'Content-Type:text/html');
@@ -46,38 +46,52 @@ const listHandler = (req, res) => {
 };
 
 const newProfileHandler = (req, res) => {
-  console.log("New profile handler reached"); 
-  let body = ''; 
+  console.log("New profile handler reached");
+  let body = '';
+
   req.on('data', (chunk) => {
-    body+=chunk; 
+    body += chunk;
   })
+
   req.on('end', () => {
-    let values = querystring.parse(body); 
-    let result = Object.values(values); 
+    let values = querystring.parse(body);
+    let result = Object.values(values);
     result.pop();// Removes submit button 'submit' valuee from end.
-  
-    postProfileData(result, (error, response) => {
+
+    postProfileData(result, (error, userId) => {
       if (error) {
-        console.log("Error:", error); 
-        res.writeHead(500, {'Content-Type': 'text/html'}); 
+        console.log("Error:", error);
+        res.writeHead(500, { 'Content-Type': 'text/html' });
         res.end('<h1>Sorry there was an error</h1>');
       }
       else {
         // res.writeHead(200, {'Content-Type': 'text/html'}); 
         // res.end('Profile added to the database');
-      console.log("Handler response:", response); 
-      res.writeHead(303,{'Location': '/user_profile?handle=' + response});
-      res.end(console.log('Successful relocation to new profile'));
+        res.writeHead(303, { 'Location': '/user_profile?id=' + userId });
+        res.end(console.log('Successful relocation to new profile'));
       }
     })
   })
 }
 
 const profileHandler = (req, res) => {
-  console.log("Profile handler reached"); 
-  
+  console.log("Profile handler reached");
 
- }
+  getProfileData((error, result) => {
+    if (error) {
+      res.writeHead(500, 'Content-Type:text/html');
+      res.end(
+        '<h1>Sorry, there was a problem getting profile information<h1>'
+      );
+      console.log(error);
+    } else {
+      let profileData = JSON.stringify(result);
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(profileData);
+    }
+  });
+
+}
 
 
 module.exports = { staticHandler, listHandler, newProfileHandler, profileHandler };
