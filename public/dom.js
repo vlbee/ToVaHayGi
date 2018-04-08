@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Variables
 var usersList = document.getElementById('js-users-list');
 

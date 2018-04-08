@@ -29,7 +29,7 @@ const staticHandler = (req, res) => {
 };
 
 const listHandler = (req, res) => {
-  console.log('List handler reached' );
+  console.log('List handler reached');
   getListData((error, result) => {
     if (error) {
       res.writeHead(500, 'Content-Type:text/html');

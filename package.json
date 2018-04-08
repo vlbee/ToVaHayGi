@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test-db": "NODE_ENV=test node ./test/dbtest.js | tap-spec",
+    "test": "nyc tape ./test/*.test.js | tap-spec",
+    "coverage": "nyc --reporter=lcov --reporter=text-lcov tape ./test/test.js | tap-spec",
+    "lint": "/node_modules/.bin/eslint"
   },
   "repository": {
     "type": "git",
@@ -23,11 +26,13 @@
     "pg": "^7.4.1"
   },
   "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.10.0",
     "nodemon": "^1.17.3",
     "nyc": "^11.6.0",
     "supertest": "^3.0.0",
     "tap-spec": "^4.1.1",
-    "tape": "^4.9.0",
-    "eslint": "^4.19.1"
+    "tape": "^4.9.0"
   }
 }
