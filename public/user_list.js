@@ -1,5 +1,5 @@
 // Variables
-var usersList = document.getElementById('js-users-list');
+var usersList = document.getElementById('js-users_list');
 
 
 // User List Population
