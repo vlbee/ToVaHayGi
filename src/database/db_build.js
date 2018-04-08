@@ -14,7 +14,7 @@ sql = fs.readFileSync(`${__dirname}/db_build.sql`).toString();
 const runDbBuild = cb => {
 dbConnect.query(sql, (err, res) => {
   if (err) return cb(err);
-  console.log("stackmatch db built with result: ", res);
+  console.log("stackmatch db built");
   cb(null, res);
 });
 }

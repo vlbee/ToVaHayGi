@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test-db": "NODE_ENV=test node ./src/test/dbtest.js | tap-spec",
+    "test-db": "NODE_ENV=test node ./src/test/db.test.js | tap-spec",
     "test": "nyc tape ./src/test/*.test.js | tap-spec",
     "coverage": "nyc --reporter=lcov --reporter=text-lcov tape ./src/test/test.js | tap-spec",
     "lint": "/node_modules/.bin/eslint"
