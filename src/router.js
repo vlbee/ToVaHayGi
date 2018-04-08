@@ -1,4 +1,4 @@
-const { staticHandler, listHandler, newProfileHandler, profileHandler } = require('./handler'); 
+const { staticHandler, listHandler, newProfileHandler, profileHandler, userDataHandler } = require('./handler'); 
 
 const router = (req, res) => {
     const endpoint = req.url; 
@@ -12,8 +12,11 @@ const router = (req, res) => {
     else if (endpoint === '/create_profile') {
         newProfileHandler(req, res); 
     }
-    else if (endpoint.indexOf('/user_profile') !== -1){
-        profileHandler(req, res); 
+    else if (endpoint.indexOf('/user_profile?id=') !== -1){
+        profileHandler(endpoint, res); 
+    }
+    else if (endpoint.indexOf('/user_data') !== -1){
+        userDataHandler(endpoint, res); 
     }
     else if (endpoint.indexOf('public') !== -1) {
         staticHandler(endpoint, res); 
