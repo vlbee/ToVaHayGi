@@ -6,7 +6,7 @@ Create a simple webapp for the FAC community, where FAC alums and students could
 
 ### User Stories
 
-1. As a user I can login to my account, or sign up and create a new accout. 
+1. As a user I can login to my account, or sign up and create a new account. 
 2. As a user, when I sign up, I can easily create a user profile and add my stack skills, but only minimum information is required at the start to complete the signup process. 
 3. As a user, I have the the option to update my user profile at any time, and add or remove stack skills.
 4. As a user, I can search for stack skills from an autocomple (or dropdown?) menu. If I cannot find my skill, I can easily add a new skill to the DB. 
