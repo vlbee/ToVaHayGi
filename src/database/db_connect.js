@@ -21,7 +21,9 @@ const options = {
   max: process.env.DB_MAX_CONNECTIONS || 2,
   user: username,
   password: password,
-  ssl: params.hostname !== 'localhost'
+  ssl: params.hostname !== 'localhost' 
 }
+
+
 
 module.exports = new Pool(options);
