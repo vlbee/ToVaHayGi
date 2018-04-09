@@ -21,13 +21,16 @@ function createUserCard(user) {
 
   var cardHeader = document.createElement('header');
   cardHeader.className = 'usercard__header';
-  var name = document.createElement('h2');
+  var profileLink = document.createElement('a'); 
+  profileLink.setAttribute('href', './user_profile?id=' + user.id);   
+  var name = document.createElement('h2'); 
   name.className = 'usercard__headername';
   var cohort = document.createElement('span');
   cohort.className = 'usercard__headercohort';
   var handle = document.createElement('span');
   handle.className = 'usercard__headerhandle';
-  cardHeader.appendChild(name);
+  profileLink.appendChild(name); 
+  cardHeader.appendChild(profileLink);
   cardHeader.appendChild(cohort);
   cardHeader.appendChild(handle);
 
@@ -67,6 +70,7 @@ function createUserCard(user) {
 }
 
 function populateUserList(userData) {
+  console.log("userData:", userData)
   userData.forEach(function (user) {
     var userCard = createUserCard(user);
     usersList.appendChild(userCard);
