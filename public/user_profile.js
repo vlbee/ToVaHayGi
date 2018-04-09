@@ -7,6 +7,7 @@ var info = document.getElementById('user_info')
 fetch('/user_data?id=' + userId, populateUserProfile);
 
 function populateUserProfile(profileData){
+
 var userData = profileData[0]; 
 console.log(userData); 
 var title = document.createElement('h1'); 
@@ -38,7 +39,8 @@ if (userData.work_looking_status == 'Y'){
 work.appendChild(workPara); 
 info.appendChild(work); 
 
-document.getElementById('about_me').textContent = userData.about_me; 
+var aboutMe = document.getElementById('about_me'); 
+if (userData.about_me !== null){ aboutMe.textContent += userData.about_me; } 
 
 }
   
