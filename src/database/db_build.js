@@ -19,13 +19,6 @@ dbConnect.query(sql, (err, res) => {
 });
 }
 
-// dbConnect.query(sql, (err, res) => {
-//   if (err) {
-//     throw err;
-//   }
-//   console.log("stackmatch db built with result: ", res);
-// });
-
 //export function for testing
 module.exports = runDbBuild;
 
