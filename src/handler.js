@@ -53,7 +53,9 @@ const profileHandler = (req, res) => {
   })
   req.on('end', () => {
     let values = querystring.parse(body); 
-    let result= Object.values(values); 
+    let result = Object.values(values); 
+    result.pop();// Removes submit button 'submit' valuee from end.
+  
     postProfileData(result, (error, response) => {
       if (error) {
         console.log("Error:", error); 
