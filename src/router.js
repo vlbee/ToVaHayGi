@@ -1,4 +1,4 @@
-const { staticHandler, listHandler, profileHandler } = require('./handler'); 
+const { staticHandler, listHandler, profileHandler, loginHandler } = require('./handler'); 
 
 const router = (req, res) => {
     const endpoint = req.url; 
@@ -12,8 +12,14 @@ const router = (req, res) => {
     }
     else if (endpoint === '/login') {
         //this comes in from auth.html to authenticate user login
-        //this will redirect to index.html
-        
+        //this will redirect to index.html if authorised
+        const dummyReq = {
+            'form': {
+              email: 'john@test.com',
+              pw: 'Johnpassword1!'
+            }
+          }
+        loginHandler(dummyReq, res);
     }
     else if (endpoint === '/signup') {
         //this comes in from auth.html to sign up a user

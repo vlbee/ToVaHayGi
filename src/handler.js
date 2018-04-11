@@ -3,6 +3,7 @@ const fs = require('fs');
 const querystring = require('querystring');
 const getListData = require('./queries/getListData');
 const postProfileData = require('./queries/postProfileData');
+const loginAuth = require('./queries/loginAuth');
 
 
 const staticHandler = (req, res) => {
@@ -73,4 +74,39 @@ const profileHandler = (req, res) => {
 }
 
 
-module.exports = { staticHandler, listHandler, profileHandler };
+
+const loginHandler = (req, res) => {
+  console.log("Login handler reached"); 
+  // let body = ''; 
+  // req.on('data', (chunk) => {
+  //   body+=chunk; 
+  // })
+  // req.on('end', () => {
+    let userDetails = [req.form.email,req.form.pw]
+    //hash pw with bcrypt
+
+    loginAuth(userDetails, (error, response) => {
+      if (error) {
+        console.log("Error:", error); 
+        res.writeHead(401, {'Content-Type': 'text/plain'}); 
+        res.end('Sorry, authentication failure.');
+      }
+      else {
+        res.writeHead(302, {
+          //"Set-Cookie": "logged_in=true",
+          'Location': '/'
+        }); 
+        console.log(`${req.form.email} has logged in`)
+        console.log(response);
+        res.end();
+      }
+
+    // })
+
+  })
+  
+
+}
+
+
+module.exports = { staticHandler, listHandler, profileHandler, loginHandler };
