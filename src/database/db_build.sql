@@ -3,23 +3,25 @@ BEGIN;
 DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
-  id SERIAL PRIMARY KEY NOT NULL,
+  id SERIAL PRIMARY KEY,
   handle VARCHAR(26) NOT NULL UNIQUE,
+  email VARCHAR(100)
+    CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),  
+  pw VARCHAR(100) NOT NULL,  
   first_name VARCHAR(100),
   surname VARCHAR(100),
-  email VARCHAR(100) NOT NULL UNIQUE,
   cohort VARCHAR(26),
   city VARCHAR(64),
   work_looking_status VARCHAR(1),
   about_me VARCHAR(3000)
 );
 
-INSERT INTO users (handle, first_name, surname, email, cohort, city, work_looking_status, about_me) VALUES
-  ('@coder1', 'John', 'Tester', 'john@test.com', 'L13', 'London', 'y', null ),
-  ('@coder2', 'Jane', 'Testing', 'jane@test.com', 'N02', 'Tel Aviv', 'y', null ),
-  ('@coder3', 'Jim', 'Dummy', 'jim@test.com', 'L11', 'Berlin', 'n', null ),
-  ('@coder4', 'Joan', 'Dummie', 'joan@test.com', 'L08', 'London', 'n', null ),
-  ('@coder5', 'Janine', 'Dummoire', 'janine@test.com', 'L08', 'Paris', 'y', 'Full-Stack developer @ TechieFrenchCompanoire. Looking to help out on any FAC freelance opportunities involving Vue.js or MEAN stack. Also love helping with CSS.' );
+INSERT INTO users (handle, email, pw, first_name, surname, cohort, city, work_looking_status, about_me) VALUES
+  ('@coder1', 'john@test.com', 'Johnpassword1!', 'John', 'Tester', 'L13', 'London', 'y', null ),
+  ('@coder2', 'jane@test.com','Janepassword1!', 'Jane', 'Testing', 'N02', 'Tel Aviv', 'y', null ),
+  ('@coder3', 'jim@test.com','Jimpassword1!', 'Jim', 'Dummy', 'L11', 'Berlin', 'n', null ),
+  ('@coder4','joan@test.com','Joanpassword1!', 'Joan', 'Dummie',  'L08', 'London', 'n', null ),
+  ('@coder5','janine@test.com','Janinepassword1!', 'Janine', 'Dummoire',  'L08', 'Paris', 'y', 'Full-Stack developer @ TechieFrenchCompanoire. Looking to help out on any FAC freelance opportunities involving Vue.js or MEAN stack. Also love helping with CSS.' );
 
 
 DROP TABLE IF EXISTS skills CASCADE;
