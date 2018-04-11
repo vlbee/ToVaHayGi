@@ -77,31 +77,37 @@ const profileHandler = (req, res) => {
 
 const loginHandler = (req, res) => {
   console.log("Login handler reached"); 
-  // let body = ''; 
-  // req.on('data', (chunk) => {
-  //   body+=chunk; 
-  // })
-  // req.on('end', () => {
-    let userDetails = [req.form.email,req.form.pw]
+  let body = ''; 
+  req.on('data', (chunk) => {
+    body+=chunk; 
+  })
+  req.on('end', () => {
+    body = JSON.parse(body);
+    console.log(body);
+    let userDetails = [
+      body.credentials.email, 
+      body.credentials.password
+    ]
     //hash pw with bcrypt
 
     loginAuth(userDetails, (error, response) => {
+      console.log('Login Auth reached');
       if (error) {
         console.log("Error:", error); 
-        res.writeHead(401, {'Content-Type': 'text/plain'}); 
-        res.end('Sorry, authentication failure.');
+        res.writeHead(200, {'Content-Type': 'text/plain'}); 
+        res.end(JSON.stringify('Authenticatio Failure!'));
       }
       else {
         res.writeHead(302, {
           //"Set-Cookie": "logged_in=true",
           'Location': '/'
         }); 
-        console.log(`${req.form.email} has logged in`)
+        console.log(`${body.credentials.email} has logged in`)
         console.log(response);
         res.end();
       }
 
-    // })
+    })
 
   })
   
