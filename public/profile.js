@@ -77,6 +77,6 @@ function populateUserList(userData) {
 // IFFE on load
 (function () {
 
-  fetch('/userlist', populateUserList);
+  clientRequest('GET', '/userlist', null, populateUserList);
 
 })();
