@@ -9,14 +9,14 @@ CREATE TABLE users (
     CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),  
   pw VARCHAR(100) NOT NULL,  
   first_name VARCHAR(100),
-  surname VARCHAR(100),
+  last_name VARCHAR(100),
   cohort VARCHAR(26),
   city VARCHAR(64),
   work_looking_status VARCHAR(1),
   about_me VARCHAR(3000)
 );
 
-INSERT INTO users (handle, email, pw, first_name, surname, cohort, city, work_looking_status, about_me) VALUES
+INSERT INTO users (handle, email, pw, first_name, last_name, cohort, city, work_looking_status, about_me) VALUES
   ('@coder1', 'john@test.com', 'Johnpassword1!', 'John', 'Tester', 'L13', 'London', 'y', null ),
   ('@coder2', 'jane@test.com','Janepassword1!', 'Jane', 'Testing', 'N02', 'Tel Aviv', 'y', null ),
   ('@coder3', 'jim@test.com','Jimpassword1!', 'Jim', 'Dummy', 'L11', 'Berlin', 'n', null ),
