@@ -107,9 +107,9 @@ Create a simple webapp for the FAC community, where FAC alums and students could
 
 #### Public
 
-- index.html (landing page)
-- user_list.html (after login view)
-- user_profile.html (after signup view - dynamic for update/create profile view - currently 2x seprate pages
+- auth.html (landing page)
+- list.html (after login view)
+- profile.html (after signup view - dynamic for update/create profile view - currently 2x seprate pages
 - style.css
 - dom.js
 - TBC Logic -> filter results?? 
