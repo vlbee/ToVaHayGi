@@ -12,8 +12,8 @@ loginButton.addEventListener('click', function(e){
      loginData.credentials[key] = formData.get(key); 
     }
     var loginString = JSON.stringify(loginData); 
-    clientRequest('POST', '/login', loginString, function(loginResponse){
-        console.log(loginResponse); 
+    clientRequest('POST', '/login', loginString, function(loginError){
+        console.log(loginError); 
     })
 })
 
