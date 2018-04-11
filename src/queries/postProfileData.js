@@ -3,7 +3,7 @@ const dbConnect = require('../database/db_connect');
 const postProfileData = (values, cb)=> {
 
     const addNewUser = {
-        text: 'INSERT INTO users(handle, first_name, surname, email, cohort, city, work_looking_status, about_me) VALUES($1, $2, $3, $4, $5, $6, $7, $8)', 
+        text: 'INSERT INTO users(handle, first_name, last_name, email, cohort, city, work_looking_status, about_me) VALUES($1, $2, $3, $4, $5, $6, $7, $8)', 
         values: values
     }
     
