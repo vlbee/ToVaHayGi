@@ -4,7 +4,7 @@ const router = (req, res) => {
     const endpoint = req.url; 
     
     if (endpoint === '/') {
-        staticHandler('public/index.html', res) 
+        staticHandler('public/auth.html', res) 
     }
     else if (endpoint.indexOf('public') !== -1) {
         staticHandler(endpoint, res); 
