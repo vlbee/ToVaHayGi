@@ -1,19 +1,49 @@
+var loginZone = document.getElementById("loginZone");
+var registerZone = document.getElementById("registerZone");
+
 var loginForm = document.getElementById("loginForm");
-var loginButton = document.getElementById("loginButton"); 
+var registerForm = document.getElementById("registerForm");
 
-loginButton.addEventListener('click', function(e){
-    e.preventDefault(); 
-    formData = new FormData(loginForm); 
-    console.log("formData:", formData);
-    var loginData = {
-        credentials: {}, 
-    }; 
-    for (var key of formData.keys()){
-     loginData.credentials[key] = formData.get(key); 
+var loginPassword = document.getElementById("logPassword");
+
+var loginButton = document.getElementById("loginButton");
+var registerButton = document.getElementById("registerButton");
+var switchButtons = document.getElementsByClassName("switch-button");
+
+var loginValidation = document.getElementById("loginValidation");
+
+for (var i = 0; i < switchButtons.length; i++) {
+  switchButtons[i].addEventListener("click", function(e) {
+    e.preventDefault();
+    loginZone.classList.toggle("hidden");
+    registerZone.classList.toggle("hidden");
+  });
+}
+
+loginButton.addEventListener("click", function(e) {
+  var loginCredentials = packageFormData(loginForm);
+  clientRequest("POST", "/login", loginCredentials, function(response) {
+    console.log(response);
+    if (response.route && response.message === "Authentication Success!") {
+        window.setTimeout(function() {
+            window.location.replace(response.route);
+        }, 1000);
+    } else {
+      var errorMessage =
+        "Sorry, we have no record of that username/password combination. Please try again or register.";
+      loginValidation.innerText = errorMessage;
+      loginForm.reset(); 
     }
-    var loginString = JSON.stringify(loginData); 
-    clientRequest('POST', '/login', loginString, function(loginError){
-        console.log(loginError); 
-    })
-})
+  });
+});
 
+registerButton.addEventListener("click", function(e) {
+  e.preventDefault();
+  var registrationCredentials = packageFormData(registerForm);
+    // This and the above function/even-listener need to be refactored!
+  clientRequest("Post", "/register", registrationCredentials, function(
+    registrationError
+  ) {
+    console.log(registrationError);
+  });
+});

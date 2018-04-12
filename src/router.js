@@ -6,22 +6,23 @@ const router = (req, res) => {
     if (endpoint === '/') {
         //function to check JWT to see if user is already logged in
         //redirects either to login page or directly to index.html
-        if(true){ //if logged in
-        staticHandler('public/index.html', res)   
+        if(true){ //if not logged in
+        staticHandler('public/auth.html', res)   
         }
     }
     else if (endpoint === '/login') {
         //this comes in from auth.html to authenticate user login
         //this will redirect to index.html if authorised
-        const dummyReq = {
-            'form': {
-              email: 'john@test.com',
-              pw: 'Johnpassword1!'
-            }
-          }
-        loginHandler(dummyReq, res);
+        // const dummyReq = {
+        //     'form': {
+        //       email: 'john@test.com',
+        //       pw: 'Johnpassword1!'
+        //     }
+        //   }
+        console.log('Router Login Req: ', req);
+        loginHandler(req, res);
     }
-    else if (endpoint === '/signup') {
+    else if (endpoint === '/register') {
         //this comes in from auth.html to sign up a user
         //this will redirect to profile.html (editable state)
 
