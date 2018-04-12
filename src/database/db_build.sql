@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  handle VARCHAR(26) NOT NULL UNIQUE,
+  handle VARCHAR(26) UNIQUE,
   email VARCHAR(100)
     CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),  
   pw VARCHAR(100) NOT NULL,  
