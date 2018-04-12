@@ -110,33 +110,43 @@ const registrationHandler = (req, res) => {
   });
   req.on('end', () => {
     body = JSON.parse(body);
-    // HASH BCRYPT PW
-    const userDetails = [body.data.regEmail, body.data.regPassword];
-    console.log('handler:', userDetails);
+    const userDetails = [body.data.regEmail];
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) console.log(err);
+      else {
+        bcrypt.hash(body.data.regPassword, salt, (err, hashed) => {
+          if (err) console.log(err);
+          else {
+            console.log('inside bcrypt.hash!!');
+            userDetails.push(hashed);
+            userDetails.push(salt);
 
-    checkNewUserExists(userDetails)
-      .then(addNewUser)
-      .then((feedback) => {
-        if (feedback) {
-            // CREATE USER PROFILE!!! 
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end(JSON.stringify({
-              // ADD JWT COOKIE INFO
-              message: 'Registration Success!',
-              route: '/profile',
-            }));
-        } else {
-          res.writeHead(200, { 'Content-Type': 'text/html' });
-          res.end(JSON.stringify({
-            message: 'Registration failed. Sorry, that email is already in use.',
-          }));
-        }
-      })
-      .catch(err => console.log(err));
+            checkNewUserExists(userDetails)
+              .then(addNewUser)
+              .then((feedback) => {
+                if (feedback) {
+                  // CREATE USER PROFILE!!!
+                  res.writeHead(200, { 'Content-Type': 'text/html' });
+                  res.end(JSON.stringify({
+                    // ADD JWT COOKIE INFO
+                    message: 'Registration Success!',
+                    route: '/profile',
+                  }));
+                } else {
+                  res.writeHead(200, { 'Content-Type': 'text/html' });
+                  res.end(JSON.stringify({
+                    message: 'Registration failed. Sorry, that email is already in use.',
+                  }));
+                }
+              })
+              .catch(err => console.log(err));
+              
+          }
+        });
+      }
+    });
   });
 };
-
-
 
 module.exports = {
   staticHandler,

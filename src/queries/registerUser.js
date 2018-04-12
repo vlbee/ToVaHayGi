@@ -22,16 +22,18 @@ const checkNewUserExists = userDetails =>
 const addNewUser = userDetails =>
   new Promise((resolve, reject) => {
     if (userDetails) {
-      const query = {
-        name: 'add-new-user',
-        text: 'INSERT INTO users (email, pw) VALUES ($1,$2) RETURNING users.id', // return user handle??
-        values: userDetails,
-      };
-      dbConnect.query(query, (err, newUserID) => {
-        if (err) reject(err.message); // add handle to this???
-        console.log('new user ID: ', newUserID);
-        resolve(newUserID);
-      });
+        return new Promise((resolve, reject) => {
+            const query =  {
+                name: 'add-new-user',
+                text: `INSERT INTO users (email, pw, salt) VALUES ($1,$2,$3) RETURNING users.id`, //return user handle?? 
+                values: userDetails
+            };
+            dbConnect.query(query, (err, newUserID) => {
+                if (err) reject(err.message);  // add handle to this??? 
+                console.log('new user ID: ', newUserID)
+                resolve(newUserID);
+            })
+        })
     } else {
       resolve();
     }

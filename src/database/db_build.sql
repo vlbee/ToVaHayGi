@@ -7,7 +7,8 @@ CREATE TABLE users (
   handle VARCHAR(26) UNIQUE,
   email VARCHAR(100)
     CONSTRAINT proper_email CHECK (email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),  
-  pw VARCHAR(100) NOT NULL,  
+  pw VARCHAR(100) NOT NULL,
+  salt VARCHAR(100),  
   first_name VARCHAR(100),
   last_name VARCHAR(100),
   cohort VARCHAR(26),
