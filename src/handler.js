@@ -94,7 +94,7 @@ const loginHandler = (req, res) => {
         ));
       } else {
         console.log(`${body.data.logEmail} has logged in`);
-        console.log(response.id);
+        console.log(response);
         res.writeHead(200, { "Content-Type": "text/plain" });
         res.end(JSON.stringify(
           {
