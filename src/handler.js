@@ -12,7 +12,7 @@ const { sign, verify } = require('jsonwebtoken');
 
 
 const staticHandler = (req, res) => {
-  console.log('Static handler reached');
+ 
   const extension = req.split('.')[1]; // url or query string?
   const extensionType = {
     html: 'text/html',
