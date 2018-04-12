@@ -23,9 +23,9 @@ const loginAuth = (userDetails, cb) => {
                 if (err) console.log(err);
                 else {
                     if (compRes) {
-                        cb(null, [res.rows[0].id, res.rows[0].email]);
+                        cb(null, { userId : res.rows[0].id, userEmail : res.rows[0].email });
                     } else {
-                        const authError = new Error("Passowrd Comparison Failure!")
+                        const authError = new Error("Password Comparison Failure!")
                         cb(authError);
                     }
                 }
