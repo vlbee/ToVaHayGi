@@ -1,6 +1,7 @@
 /* eslint-disable */
 // Variables
 var usersList = document.getElementById('js-users-list');
+var navProfile = document.getElementById('nav-profile');
 
 // User List Population
 
@@ -70,16 +71,13 @@ function createUserCard(user) {
 //populatUserData now targets the first element in the array;
 function populateUserList(userData) {
   console.log(userData);
-  userData[0].forEach(function (user) {
+  userData.forEach(function (user) {
     var userCard = createUserCard(user);
     usersList.appendChild(userCard);
   });
-
 }
 
 // IFFE on load
 (function () {
-
   clientRequest('GET', '/list', null, populateUserList);
-
 })();
