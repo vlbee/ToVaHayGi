@@ -57,9 +57,28 @@ const listHandler = (req, res) => {
             }
         });
     }
-      
+    }
+  });
+};
 
-
+const jwtHandler = (req, res) => {
+  console.log('jwt handler reached');
+  getListData((error, result) => {
+    if (error) {
+      console.log(error);
+    } else {
+      //target the JWT and decode its contents
+      if (req.headers.cookie){
+        let { jwt } = parse(req.headers.cookie)
+        verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
+            if (err || !decoded) { //if not logged in
+                console.log(err);
+            } else {
+              res.writeHead(200, { 'content-type': 'application/json' });
+              res.end(JSON.stringify(decoded));
+            }
+        });
+    }
     }
   });
 };
@@ -179,4 +198,5 @@ module.exports = {
   profileHandler,
   loginHandler,
   registrationHandler,
+  jwtHandler
 };

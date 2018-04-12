@@ -31,7 +31,6 @@ const addNewUser = userDetails =>
       dbConnect.query(query, (err, newUser) => {
         if (err) reject(err.message);
         console.log('new user ID: ', newUser.rows[0].id);
-        
         const newUserID = { userId : newUser.rows[0].id, userEmail : newUser.rows[0].email };
         resolve(newUserID);
       });

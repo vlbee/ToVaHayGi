@@ -3,7 +3,8 @@ const {
     listHandler,
     profileHandler,
     loginHandler,
-    registrationHandler
+    registrationHandler,
+    jwtHandler
 } = require('./handler');
 const { parse } = require('cookie');
 const { sign, verify } = require('jsonwebtoken');
@@ -29,6 +30,9 @@ const router = (req, res) => {
             staticHandler('public/auth.html', res);
         }
         
+    } 
+    else if (endpoint === '/session') {
+        jwtHandler(req, res);
     } else if (endpoint === '/login') {
         //this comes in from auth.html to authenticate user login
         //this will redirect to index.html if authorised
@@ -45,10 +49,6 @@ const router = (req, res) => {
         listHandler(req, res);
     } 
     else if (endpoint === '/profile') {
-        // let { jwt } = parse(req.headers.cookie)
-        //     verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
-        //         console.log(decoded);
-        //     });
 
         staticHandler('public/profile.html', res);
     } else if (endpoint === '/usernewprofile') {
