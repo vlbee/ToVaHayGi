@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
-const pgpromise = require('pg-promise');
+// const pgpromise = require('pg-promise');
 const bcrypt = require('bcrypt');
 const getListData = require('./queries/getListData');
 const postProfileData = require('./queries/postProfileData');
@@ -94,7 +94,7 @@ const loginHandler = (req, res) => {
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(JSON.stringify({
           message: 'Authentication Success!',
-          route: '/list',
+          route: '/index',
         }));
       }
     });

@@ -23,8 +23,11 @@ const router = (req, res) => {
         registrationHandler(req, res);
     }
     //this will be redundant when '/' directs to userlist
-    else if (endpoint === '/userlist') {
-        listHandler(endpoint, res); 
+    else if (endpoint === '/index') {
+        staticHandler('public/list.html', res); 
+    }
+    else if (endpoint === '/list') {
+        listHandler(req, res);
     }
     else if (endpoint === '/usernewprofile') {
         profileHandler(req, res); 

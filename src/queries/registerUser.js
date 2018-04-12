@@ -1,6 +1,6 @@
 // Add code below to query your database
 const dbConnect = require('../database/db_connect');
-const pgpromise = require('pg-promise');
+// const pgpromise = require('pg-promise');
 
 const checkNewUserExists = userDetails =>
   new Promise((resolve, reject) => {
