@@ -62,7 +62,6 @@ loginButton.addEventListener("click", function (e) {
 //register submit function - validates credentials and adds user to database
 registerButton.addEventListener("click", function (e) {
   e.preventDefault();
-  console.log(errorMessage); 
   //clears the error message paragraph 
   Array.from(errorMessage).forEach(function(message){
     message.innerHTML=""; 
@@ -87,10 +86,19 @@ registerButton.addEventListener("click", function (e) {
       //Request to backend
       var registrationCredentials = packageFormData(registerForm);
       // This and the above function/even-listener need to be refactored!
-      clientRequest("Post", "/register", registrationCredentials, function (
-        registrationError
-      ) {
-        console.log(registrationError);
+      clientRequest("Post", "/register", registrationCredentials, function (response) {
+        console.log('response message:', response.message);
+        if (response.route && response.message === "Registration Success!") {
+          window.setTimeout(function () {
+            window.location.replace(response.route);
+          }, 1000);
+        } else {
+          setTimeout(function(){
+            var errorMessage = "Sorry, that email is already in use.";
+            regEmailValidation.innerHTML = errorMessage;
+            registerForm.reset();
+          }, 500); 
+        }
       });
     }
   }
