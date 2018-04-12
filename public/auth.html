@@ -14,7 +14,7 @@
     <section id="loginZone">
       <form id="loginForm" class="auth-form" novalidate>
         <label for="logEmail">Email:</label>
-        <input type="email" name="logEmail" id="logEmail" class="auth-input" required/>
+        <input type="email" name="logEmail" id="logEmail" class="auth-input" pattern:"" required/>
         <label for="logPassword">Password:</label>
         <input type="password" name="logPassword" id="logPassword" class="auth-input" required />
       </form>
@@ -27,13 +27,16 @@
     <section id="registerZone" class="hidden">
       <form id="registerForm" class="auth-form" novalidate>
         <label for="regEmail">Email:</label>
-        <input type="email" name="regEmail" id="regEmail" class="auth-input" required />
+        <input type="email" name="regEmail" id="regEmail" class="auth-input" pattern="^[.\w]+@[\w-]{3,}((.)\w{2,})+$" maxlength="40" required />
+        <p id="regEmailValidation" class="validation-error"></p>
         <label for="regPassword">Password:</label>
-        <input type="password" name="regPassword" id="regPassword" class="auth-input" required />
+        <input type="password" name="regPassword" id="regPassword" class="auth-input" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required />
+        <p id="regPasswordValidation" class="validation-error"></p>
         <label for="regPasswordConf">Confirm Password:</label>
-        <input type="password" name="regPasswordConf" id="regPasswordConf" class="auth-input" required />
+        <p id="regPasswordMatch" class="validation-error"></p>
+        <input type="password" name="regPasswordConf" id="regPasswordConf" class="auth-input" required/>
       </form>
-      <!-- <p id="" class="validation-error"></p> -->
+      <p id="regEmptyValidation" class="validation-error"></p>
       <button id="registerButton" type="button" name="registerButton" class="auth-button">Register</button>
       <button type="button" class="auth-button switch-button">Login</button>      
     </section>
