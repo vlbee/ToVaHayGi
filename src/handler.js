@@ -79,13 +79,7 @@ const loginHandler = (req, res) => {
     console.log(body);
     body = JSON.parse(body);
     console.log(body);
-<<<<<<< HEAD
     let userDetails = [body.data.logEmail, body.data.logPassword];
-=======
-    const userDetails = [body.data.logEmail, body.data.logPassword];
-    // compare Hashed pw with bcrypt COMPARE
-    // YEAH!! HASH THAT!
->>>>>>> master
     loginAuth(userDetails, (error, response) => {
       console.log('Login Auth reached');
       if (error) {
@@ -95,25 +89,13 @@ const loginHandler = (req, res) => {
           message: 'Authentication Failure!',
         }));
       } else {
-<<<<<<< HEAD
         console.log(`${body.data.logEmail} has logged in`);
         console.log(response);
-        res.writeHead(200, { "Content-Type": "text/plain" });
-        res.end(JSON.stringify(
-          {
-            "message": "Authentication Success!",
-            "route": "/list"
-          }
-        ));
-=======
-        console.log(`${body.data.email} has logged in`);
-        console.log(response.id);
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(JSON.stringify({
           message: 'Authentication Success!',
           route: '/list',
         }));
->>>>>>> master
       }
     });
   });
