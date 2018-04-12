@@ -14,9 +14,9 @@
     <section id="loginZone">
       <form id="loginForm" class="auth-form" novalidate>
         <label for="logEmail">Email:</label>
-        <input type="email" name="logEmail" id="logEmail" class="auth-input" pattern:"" required/>
+        <input type="email" name="logEmail" id="logEmail" class="auth-input" pattern="^[.\w]+@[\w-]{3,}((.)\w{2,})+$" required/>
         <label for="logPassword">Password:</label>
-        <input type="password" name="logPassword" id="logPassword" class="auth-input" required />
+        <input type="password" name="logPassword" id="logPassword" class="auth-input" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required />     
       </form>
       <p id="loginValidation" class="validation-error"></p>
       <button id="loginButton" type="button" name="loginButton" class="auth-button">Login</button>
