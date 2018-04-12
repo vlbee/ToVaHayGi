@@ -9,6 +9,7 @@ const loginAuth = (userDetails, cb) => {
         text: `SELECT users.id, users.handle FROM users WHERE users.email= $1 AND users.pw= $2`,
         values: userDetails
     };
+    console.log(userDetails);
     dbConnect.query(query, (err, res) => {
         if (err) return cb(err);
         

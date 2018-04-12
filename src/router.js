@@ -22,7 +22,7 @@ const router = (req, res) => {
         console.log('Router Login Req: ', req);
         loginHandler(req, res);
     }
-    else if (endpoint === '/signup') {
+    else if (endpoint === '/register') {
         //this comes in from auth.html to sign up a user
         //this will redirect to profile.html (editable state)
 

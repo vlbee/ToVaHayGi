@@ -1,26 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
 
-  <form id="loginForm" novalidate>
-    <label for="email">Email:
-      <input type="email" name="email" id="email" required/>
-      <p id="emailError" class="validationError"></p>
-    </label>
-    <label for="password">Password:
-      <input id="password" type="password" name="password" required>
-      <p id="passwordError" class="validationError"></p>
-    </label>
-    <button id="loginButton" type="submit" name="loginButton">Login</button>
-  </form>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./public/style.css"
+  </head>
 
-</body>
-<script src="./public/logic.js" type="text/javascript"></script>
-<script src="./public/auth.js" type="text/javascript"></script> 
+  <body>
+
+    <section id="loginZone">
+      <form id="loginForm" class="auth-form" novalidate>
+        <label for="logEmail">Email:</label>
+        <input type="email" name="logEmail" id="logEmail" class="auth-input" required/>
+        <label for="logPassword">Password:</label>
+        <input type="password" name="logPassword" id="logPassword" class="auth-input" required />
+      </form>
+      <p id="loginValidation" class="validation-error"></p>
+      <button id="loginButton" type="button" name="loginButton" class="auth-button">Login</button>
+      <button type="button" class="auth-button switch-button">Register</button>      
+    </section>
+
+
+    <section id="registerZone" class="hidden">
+      <form id="registerForm" class="auth-form" novalidate>
+        <label for="regEmail">Email:</label>
+        <input type="email" name="regEmail" id="regEmail" class="auth-input" required />
+        <label for="regPassword">Password:</label>
+        <input type="password" name="regPassword" id="regPassword" class="auth-input" required />
+        <label for="regPasswordConf">Confirm Password:</label>
+        <input type="password" name="regPasswordConf" id="regPasswordConf" class="auth-input" required />
+      </form>
+      <!-- <p id="" class="validation-error"></p> -->
+      <button id="registerButton" type="button" name="registerButton" class="auth-button">Register</button>
+      <button type="button" class="auth-button switch-button">Login</button>      
+    </section>
+
+    <script src="./public/logic.js" type="text/javascript"></script>
+    <script src="./public/auth.js" type="text/javascript"></script>
+
+  </body>
+
 </html>
