@@ -4,7 +4,10 @@ var registerZone = document.getElementById("registerZone");
 var loginForm = document.getElementById("loginForm");
 var registerForm = document.getElementById("registerForm");
 
+var loginEmail = document.getElementById("logEmail"); 
 var loginPassword = document.getElementById("logPassword");
+var loginValidation = document.getElementById("loginValidation");
+
 
 var regEmail = document.getElementById("regEmail"); 
 var regEmailValidation = document.getElementById("regEmailValidation"); 
@@ -20,8 +23,6 @@ var loginButton = document.getElementById("loginButton");
 var registerButton = document.getElementById("registerButton");
 var switchButtons = document.getElementsByClassName("switch-button");
 
-var loginValidation = document.getElementById("loginValidation");
-
 
 
 //toggle between sign in and sign up
@@ -35,6 +36,11 @@ for (var i = 0; i < switchButtons.length; i++) {
 
 //login submit function - validates credentials and sends request to backend
 loginButton.addEventListener("click", function (e) {
+  loginValidation.innerHTML=""; 
+  if (loginEmail.validity.patternMismatch || loginPassword.validity.patternMismatch){
+    loginValidation.innerHTML = "Please provide valid login details."
+  }else {
+  //backend authentication request
   var loginCredentials = packageFormData(loginForm);
   clientRequest("POST", "/login", loginCredentials, function (response) {
     console.log(response);
@@ -43,12 +49,14 @@ loginButton.addEventListener("click", function (e) {
         window.location.replace(response.route);
       }, 1000);
     } else {
-      var errorMessage =
-        "Sorry, we have no record of that username/password combination. Please try again or register.";
-      loginValidation.innerText = errorMessage;
-      loginForm.reset();
+      setTimeout(function(){
+        var errorMessage = "Sorry, we have no record of that username/password combination. Please try again or register.";
+        loginValidation.innerText = errorMessage;
+        loginForm.reset();
+      }, 500); 
     }
   });
+}
 });
 
 //register submit function - validates credentials and adds user to database
@@ -61,7 +69,7 @@ registerButton.addEventListener("click", function (e) {
   }); 
  
   //checks that email and password fields aren't empty
-  if (!regEmail.value || !regPassword.value){
+  if (!regEmail.value || !regPassword.value ){
     regEmptyValidation.innerHTML = "Please provide an email and password." 
   }else { 
   if (regEmail.validity.patternMismatch){
@@ -76,6 +84,7 @@ registerButton.addEventListener("click", function (e) {
     if (regPassword.value !== regPasswordConf.value) {
       regPasswordMatch.innerHTML = "Your password and confirmation password do not match."
     } else {
+      //Request to backend
       var registrationCredentials = packageFormData(registerForm);
       // This and the above function/even-listener need to be refactored!
       clientRequest("Post", "/register", registrationCredentials, function (
