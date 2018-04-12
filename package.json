@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/fac-13/ToVaHayGi#readme",
   "dependencies": {
+    "bcrypt": "^2.0.0",
     "bcryptjs": "^2.4.3",
     "env2": "^2.2.0",
     "pg": "^7.4.1"
