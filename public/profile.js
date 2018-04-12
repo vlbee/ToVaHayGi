@@ -22,8 +22,6 @@ username.value = parsedData.handle;
 firstname.value = parsedData.firstname; 
 email.value = parsedData.email; 
 
-
-
 }
 
   
@@ -35,5 +33,5 @@ email.value = parsedData.email;
 
     clientRequest('GET', '/profile-data', null, populateUserProfile);
   
-  })();
+  })(); 
 
