@@ -7,6 +7,9 @@ const getListData = require('./queries/getListData');
 const postProfileData = require('./queries/postProfileData');
 const loginAuth = require('./queries/loginAuth');
 const { checkNewUserExists, addNewUser } = require('./queries/registerUser');
+const cookie = require('cookie');
+const { sign, verify } = require('jsonwebtoken');
+
 
 const staticHandler = (req, res) => {
   console.log('Static handler reached');
@@ -91,10 +94,15 @@ const loginHandler = (req, res) => {
       } else {
         console.log(`${body.data.logEmail} has logged in`);
         console.log(response);
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        //JWT created here
+        // response is an array
+        const token = sign(response, process.env.JWT_SECRET);
+        //add secure when pushing to Heroku
+        res.writeHead(200, { 'Set-Cookie': `jwt=${token}; HttpOnly; Max-Age=86400`,
+        'Content-Type': 'text/plain' });
         res.end(JSON.stringify({
           message: 'Authentication Success!',
-          route: '/list',
+          route: '/',
         }));
       }
     });
