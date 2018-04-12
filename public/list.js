@@ -66,8 +66,11 @@ function createUserCard(user) {
   return card;
 }
 
+//Because the response from the XHR at the bottom is now an array of userListData and decodedJWT,
+//populatUserData now targets the first element in the array;
 function populateUserList(userData) {
-  userData.forEach(function (user) {
+  console.log(userData);
+  userData[0].forEach(function (user) {
     var userCard = createUserCard(user);
     usersList.appendChild(userCard);
   });
