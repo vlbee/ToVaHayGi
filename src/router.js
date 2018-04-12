@@ -1,5 +1,6 @@
 const {
     staticHandler,
+    jwtHandler,
     listHandler,
     profileDataHandler,
     loginHandler,
@@ -27,9 +28,11 @@ const router = (req, res) => {
             });
         } else { //if not logged in
             staticHandler('public/auth.html', res);
-        }
-
-    } else if (endpoint === '/login') {
+        }    
+    } else if (endpoint === '/session') {
+        jwtHandler(req, res);
+    }
+    else if (endpoint === '/login') {
         //this comes in from auth.html to authenticate user login
         //this will redirect to index.html if authorised
         loginHandler(req, res);
