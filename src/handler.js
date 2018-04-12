@@ -10,9 +10,7 @@ const { checkNewUserExists, addNewUser } = require('./queries/registerUser');
 const { parse } = require('cookie');
 const { sign, verify } = require('jsonwebtoken');
 
-
 const staticHandler = (req, res) => {
-  console.log('Static handler reached');
   const extension = req.split('.')[1]; // url or query string?
   const extensionType = {
     html: 'text/html',
@@ -33,6 +31,22 @@ const staticHandler = (req, res) => {
   });
 };
 
+const jwtHandler = (req, res) => {
+  console.log('jwt handler reached');
+  if (req.headers.cookie) {
+    const { jwt } = parse(req.headers.cookie);
+    verify(jwt, process.env.JWT_SECRET, (err, decoded) => {
+      if (err || !decoded) {
+        // if not logged in
+        console.log(err);
+      } else {
+        res.writeHead(200, { 'content-type': 'application/json' });
+        res.end(JSON.stringify(decoded));
+      }
+    });
+  }
+};
+
 const listHandler = (req, res) => {
   console.log('List handler reached');
   getListData((error, result) => {
@@ -41,25 +55,20 @@ const listHandler = (req, res) => {
       res.end('<h1>Sorry, there was a problem getting user list information<h1>');
       console.log(error);
     } else {
-      //target the JWT and decode its contents
-      if (req.headers.cookie){
-        let { jwt } = parse(req.headers.cookie)
-        verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
-            if (err || !decoded) { //if not logged in
-                console.log(err);
-            } else {
-              let userListData = result;
-              let decodedJwt = decoded;
-              //userListAndJwt is now an array of userListData and decodedJwt in an array;
-              const usersListAndJwt = JSON.stringify([userListData, decodedJwt]);
-              res.writeHead(200, { 'content-type': 'application/json' });
-              res.end(usersListAndJwt);
-            }
+      // target the JWT and decode its contents
+      if (req.headers.cookie) {
+        const { jwt } = parse(req.headers.cookie);
+        verify(jwt, process.env.JWT_SECRET, (err, decoded) => {
+          if (err || !decoded) {
+            // if not logged in
+            console.log(err);
+          } else {
+            const userListData = result;
+            res.writeHead(200, { 'content-type': 'application/json' });
+            res.end(JSON.stringify(userListData));
+          }
         });
-    }
-      
-
-
+      }
     }
   });
 };
@@ -98,7 +107,7 @@ const loginHandler = (req, res) => {
     console.log(body);
     body = JSON.parse(body);
     console.log(body);
-    let userDetails = [body.data.logEmail, body.data.logPassword];
+    const userDetails = [body.data.logEmail, body.data.logPassword];
     loginAuth(userDetails, (error, response) => {
       console.log('Login Auth reached');
       if (error) {
@@ -110,12 +119,14 @@ const loginHandler = (req, res) => {
       } else {
         console.log(`${body.data.logEmail} has logged in`);
         console.log(response);
-        //JWT created here
+        // JWT created here
         // response is an array
         const token = sign(response, process.env.JWT_SECRET);
-        //add secure when pushing to Heroku
-        res.writeHead(200, { 'Set-Cookie': `jwt=${token}; HttpOnly; Max-Age=86400`,
-        'Content-Type': 'text/plain' });
+        // add secure when pushing to Heroku
+        res.writeHead(200, {
+          'Set-Cookie': `jwt=${token}; HttpOnly; Max-Age=86400`,
+          'Content-Type': 'text/plain',
+        });
         res.end(JSON.stringify({
           message: 'Authentication Success!',
           route: '/',
@@ -150,9 +161,11 @@ const registrationHandler = (req, res) => {
                 if (feedback) {
                   // CREATE USER PROFILE!!!
                   const token = sign(feedback, process.env.JWT_SECRET);
-                  //add secure when pushing to Heroku
-                  res.writeHead(200, { 'Set-Cookie': `jwt=${token}; HttpOnly; Max-Age=86400`,
-                  'Content-Type': 'text/plain' });
+                  // add secure when pushing to Heroku
+                  res.writeHead(200, {
+                    'Set-Cookie': `jwt=${token}; HttpOnly; Max-Age=86400`,
+                    'Content-Type': 'text/plain',
+                  });
                   res.end(JSON.stringify({
                     message: 'Registration Success!',
                     route: '/profile',
@@ -165,7 +178,6 @@ const registrationHandler = (req, res) => {
                 }
               })
               .catch(err => console.log(err));
-              
           }
         });
       }
@@ -175,6 +187,7 @@ const registrationHandler = (req, res) => {
 
 module.exports = {
   staticHandler,
+  jwtHandler,
   listHandler,
   profileHandler,
   loginHandler,
