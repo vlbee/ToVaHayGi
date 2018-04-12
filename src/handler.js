@@ -1,9 +1,12 @@
 const path = require("path");
 const fs = require("fs");
 const querystring = require("querystring");
+const bcrypt = require('bcryptjs');
 const getListData = require("./queries/getListData");
 const postProfileData = require("./queries/postProfileData");
 const loginAuth = require("./queries/loginAuth");
+const { checkNewUserExists, addNewUser } = require("./queries/registerUser");
+
 
 const staticHandler = (req, res) => {
   console.log("Static handler reached");
@@ -75,10 +78,11 @@ const loginHandler = (req, res) => {
     body += chunk;
   });
   req.on("end", () => {
+    console.log(body);
     body = JSON.parse(body);
     console.log(body);
     let userDetails = [body.data.logEmail, body.data.logPassword];
-    //hash pw with bcrypt
+    //compare Hashed pw with bcrypt COMPARE
     // YEAH!! HASH THAT!
     loginAuth(userDetails, (error, response) => {
       console.log("Login Auth reached");
@@ -103,6 +107,33 @@ const loginHandler = (req, res) => {
       }
     });
   });
+};  
+
+
+const registrationHandler = (req, res) => {
+  console.log("registration handler reached");
+  let body = "";
+  req.on("data", chunk => {
+    body += chunk;
+  });
+  req.on("end", () => {
+    body = JSON.parse(body);
+    // HASH BCRYPT PW
+    let userDetails = [body.data.regEmail, body.data.regPassword];
+    console.log('handler:', userDetails);
+
+    checkNewUserExists(userDetails)
+      .then(addNewUser)
+      .catch((err) => console.log(err))
+
+  }); 
 };
 
-module.exports = { staticHandler, listHandler, profileHandler, loginHandler };
+
+module.exports = { 
+  staticHandler, 
+  listHandler, 
+  profileHandler, 
+  loginHandler, 
+  registrationHandler
+};

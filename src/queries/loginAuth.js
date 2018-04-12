@@ -2,11 +2,10 @@
 const dbConnect = require("../database/db_connect");
 
 
-
 const loginAuth = (userDetails, cb) => {
     const query =  {
         name: 'authenticate-user',
-        text: `SELECT users.id, users.handle FROM users WHERE users.email= $1 AND users.pw= $2`,
+        text: `SELECT users.id, users.handle FROM users WHERE users.email = $1 AND users.pw = $2`,
         values: userDetails
     };
     console.log(userDetails);
