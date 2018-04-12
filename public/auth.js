@@ -87,7 +87,7 @@ registerButton.addEventListener("click", function (e) {
       var registrationCredentials = packageFormData(registerForm);
       // This and the above function/even-listener need to be refactored!
       clientRequest("Post", "/register", registrationCredentials, function (response) {
-        console.log(response.message);
+        console.log('response message:', response.message);
         if (response.route && response.message === "Registration Success!") {
           window.setTimeout(function () {
             window.location.replace(response.route);

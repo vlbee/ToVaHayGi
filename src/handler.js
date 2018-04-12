@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
+const pgpromise = require('pg-promise');
 const bcrypt = require('bcrypt');
 const getListData = require('./queries/getListData');
 const postProfileData = require('./queries/postProfileData');

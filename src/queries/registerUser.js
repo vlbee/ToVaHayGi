@@ -1,5 +1,6 @@
 // Add code below to query your database
 const dbConnect = require('../database/db_connect');
+const pgpromise = require('pg-promise');
 
 const checkNewUserExists = userDetails =>
   new Promise((resolve, reject) => {
@@ -22,22 +23,22 @@ const checkNewUserExists = userDetails =>
 const addNewUser = userDetails =>
   new Promise((resolve, reject) => {
     if (userDetails) {
-        return new Promise((resolve, reject) => {
-            const query =  {
-                name: 'add-new-user',
-                text: `INSERT INTO users (email, pw, salt) VALUES ($1,$2,$3) RETURNING users.id`, //return user handle?? 
-                values: userDetails
-            };
-            dbConnect.query(query, (err, newUserID) => {
-                if (err) reject(err.message);  // add handle to this??? 
-                console.log('new user ID: ', newUserID)
-                resolve(newUserID);
-            })
-        })
+      const query = {
+        name: 'add-new-user',
+        text: 'INSERT INTO users (email, pw, salt) VALUES ($1,$2,$3) RETURNING users.id',
+        values: userDetails,
+      };
+      dbConnect.query(query, (err, newUser) => {
+        if (err) reject(err.message);
+        console.log('new user ID: ', newUser.rows[0].id);
+        const newUserID = newUser.rows[0].id;
+        resolve(newUserID);
+      });
     } else {
       resolve();
     }
   });
+  
 
 module.exports = {
   checkNewUserExists,
