@@ -7,7 +7,37 @@
   <title>Document</title>
 </head>
 <body>
+  <p>User profile</p>
+  <section id="updateZone">
+  <form id="updateProfile" class="form">
+    Username:
+    <input type="text" name="handle" value="" placeholder="" required>
+    First name:
+    <input type="text" name="first_name" value="" placeholder="" required>
+    Last name:
+    <input type="text" name="last_name" value="" placeholder="" required>
+    Email:
+    <input type="email" name="email" value="" placeholder="" required>
+    Cohort:
+    <input type="text" name="cohort" value="" placeholder="" required>
+    City:
+    <input type="text" name="city" value="" placeholder="" required>
+    Looking for work? 
+    <input type="radio" name="work_looking_status" value="Y">Yes
+    <input type="radio" name="work_looking_status" value="N">No 
+    About me: 
+    <textarea name="about_me">
+    </textarea>
+    <button type="button" id="updateButton" name="updateButton">Update profile</button>
+    </form>
+    </section>
 
-<script src="./profile.js" type="text/javascript"></script>
+    <section id="viewZone">
+      <p>View zone</p>
+    </section>
+
+  
+<script src="./public/logic.js" type="text/javascript"></script>
+<script src="./public/profile.js" type="text/javascript"></script>
 </body>
 </html>

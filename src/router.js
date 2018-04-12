@@ -29,8 +29,8 @@ const router = (req, res) => {
     else if (endpoint === '/list') {
         listHandler(req, res);
     }
-    else if (endpoint === '/usernewprofile') {
-        profileHandler(req, res); 
+    else if (endpoint === '/profile') {
+        staticHandler('public/profile.html', res); 
     }
     else if (endpoint.indexOf('public') !== -1) {
         staticHandler(endpoint, res); 
