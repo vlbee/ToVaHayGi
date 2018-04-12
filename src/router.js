@@ -1,4 +1,4 @@
-const { staticHandler, listHandler, profileHandler, loginHandler } = require('./handler'); 
+const { staticHandler, listHandler, profileHandler, loginHandler, registrationHandler } = require('./handler'); 
 
 const router = (req, res) => {
     const endpoint = req.url; 
@@ -13,19 +13,14 @@ const router = (req, res) => {
     else if (endpoint === '/login') {
         //this comes in from auth.html to authenticate user login
         //this will redirect to index.html if authorised
-        // const dummyReq = {
-        //     'form': {
-        //       email: 'john@test.com',
-        //       pw: 'Johnpassword1!'
-        //     }
-        //   }
         console.log('Router Login Req: ', req);
         loginHandler(req, res);
     }
     else if (endpoint === '/register') {
         //this comes in from auth.html to sign up a user
         //this will redirect to profile.html (editable state)
-
+        console.log("register route reached");
+        registrationHandler(req, res);
     }
     //this will be redundant when '/' directs to userlist
     else if (endpoint === '/userlist') {
