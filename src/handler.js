@@ -7,7 +7,7 @@ const getListData = require('./queries/getListData');
 const postProfileData = require('./queries/postProfileData');
 const loginAuth = require('./queries/loginAuth');
 const { checkNewUserExists, addNewUser } = require('./queries/registerUser');
-const cookie = require('cookie');
+const { parse } = require('cookie');
 const { sign, verify } = require('jsonwebtoken');
 
 
@@ -41,9 +41,25 @@ const listHandler = (req, res) => {
       res.end('<h1>Sorry, there was a problem getting user list information<h1>');
       console.log(error);
     } else {
-      const usersListData = JSON.stringify(result);
-      res.writeHead(200, { 'content-type': 'application/json' });
-      res.end(usersListData);
+      //target the JWT and decode its contents
+      if (req.headers.cookie){
+        let { jwt } = parse(req.headers.cookie)
+        verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
+            if (err || !decoded) { //if not logged in
+                console.log(err);
+            } else {
+              let userListData = result;
+              let decodedJwt = decoded;
+              //userListAndJwt is now an array of userListData and decodedJwt in an array;
+              const usersListAndJwt = JSON.stringify([userListData, decodedJwt]);
+              res.writeHead(200, { 'content-type': 'application/json' });
+              res.end(usersListAndJwt);
+            }
+        });
+    }
+      
+
+
     }
   });
 };
