@@ -82,8 +82,6 @@ const loginHandler = (req, res) => {
     body = JSON.parse(body);
     console.log(body);
     let userDetails = [body.data.logEmail, body.data.logPassword];
-    //compare Hashed pw with bcrypt COMPARE
-    // YEAH!! HASH THAT!
     loginAuth(userDetails, (error, response) => {
       console.log("Login Auth reached");
       if (error) {
@@ -95,7 +93,7 @@ const loginHandler = (req, res) => {
           }
         ));
       } else {
-        console.log(`${body.data.email} has logged in`);
+        console.log(`${body.data.logEmail} has logged in`);
         console.log(response.id);
         res.writeHead(200, { "Content-Type": "text/plain" });
         res.end(JSON.stringify(
