@@ -91,7 +91,7 @@ registerButton.addEventListener("click", function (e) {
         if (response.route && response.message === "Registration Success!") {
           window.setTimeout(function () {
             window.location.replace(response.route);
-          }, 1000);
+          }, 500);
         } else {
           setTimeout(function(){
             var errorMessage = "Sorry, that email is already in use.";

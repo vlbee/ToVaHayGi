@@ -43,10 +43,11 @@ const router = (req, res) => {
         //this will redirect to profile.html (editable state)
         console.log("register route reached");
         registrationHandler(req, res);
+    }else if (endpoint === '/index') {
+        staticHandler('public/list.html', res); 
     }
-    //this will be redundant when '/' directs to userlist
-    else if (endpoint === '/userlist') {
-        listHandler(endpoint, res);
+    else if (endpoint === '/list') {
+        listHandler(req, res);
     } else if (endpoint === '/usernewprofile') {
         profileHandler(req, res);
     } else if (endpoint.indexOf('public') !== -1) {
