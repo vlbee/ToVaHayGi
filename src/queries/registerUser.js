@@ -25,14 +25,15 @@ const addNewUser = userDetails =>
     if (userDetails) {
       const query = {
         name: 'add-new-user',
-        text: 'INSERT INTO users (email, pw, salt) VALUES ($1,$2,$3) RETURNING users.id',
+        text: 'INSERT INTO users (email, pw, salt) VALUES ($1,$2,$3) RETURNING users.id, users.email',
         values: userDetails,
       };
       dbConnect.query(query, (err, newUser) => {
         console.log("Newuser:", newUser)
         if (err) reject(err.message);
         console.log('new user ID: ', newUser.rows[0].id);
-        const newUserID = newUser.rows[0].id;
+        
+        const newUserID = { userId : newUser.rows[0].id, userEmail : newUser.rows[0].email };
         resolve(newUserID);
       });
     } else {

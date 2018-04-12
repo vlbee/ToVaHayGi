@@ -7,6 +7,11 @@ const getListData = require('./queries/getListData');
 const postProfileData = require('./queries/postProfileData');
 const loginAuth = require('./queries/loginAuth');
 const { checkNewUserExists, addNewUser } = require('./queries/registerUser');
+const cookie = require('cookie');
+const { parse } = require('cookie');
+const { sign, verify } = require('jsonwebtoken');
+const getProfileData = require('./queries/getProfileData');
+
 
 const staticHandler = (req, res) => {
   console.log('Static handler reached');
@@ -45,29 +50,53 @@ const listHandler = (req, res) => {
   });
 };
 
-const profileHandler = (req, res) => {
-  console.log('Profile handler reached');
-  let body = '';
-  req.on('data', (chunk) => {
-    body += chunk;
-  });
-  req.on('end', () => {
-    const values = querystring.parse(body);
-    const result = Object.values(values);
-    result.pop(); // Removes submit button 'submit' valuee from end.
+const profileDataHandler = (req, res) => {
 
-    postProfileData(result, (error, response) => {
+  let { jwt } = parse(req.headers.cookie)
+  verify(jwt, process.env.JWT_SECRET, (err, decoded) => {
+    console.log("Decoded ID:", decoded);
+
+    getProfileData(decoded.userId, (error, result) => {
       if (error) {
-        console.log('Error:', error);
-        res.writeHead(500, { 'Content-Type': 'text/html' });
-        res.end('<h1>Sorry there was an error</h1>');
+        // res.writeHead(500, 'Content-Type:text/html');
+        // res.end(
+        //   '<h1>Sorry, there was a problem getting profile information<h1>'
+        // );
+        console.log(error);
       } else {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end('Profile added to the database');
+        // console.log('Profile data handler result:', result); 
+        let profileData = JSON.stringify(result);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(profileData);
       }
     });
-  });
+  })
 };
+
+
+// UPDATE PROFILE 
+// console.log('Profile handler reached');
+// let body = '';
+// req.on('data', (chunk) => {
+//   body += chunk;
+// });
+// req.on('end', () => {
+//   const values = querystring.parse(body);
+//   const result = Object.values(values);
+//   result.pop(); // Removes submit button 'submit' valuee from end.
+
+//   postProfileData(result, (error, response) => {
+//     if (error) {
+//       console.log('Error:', error);
+//       res.writeHead(500, { 'Content-Type': 'text/html' });
+//       res.end('<h1>Sorry there was an error</h1>');
+//     } else {
+//       res.writeHead(200, { 'Content-Type': 'text/html' });
+//       res.end('Profile added to the database');
+//     }
+//   });
+// });
+
 
 const loginHandler = (req, res) => {
   console.log('Login handler reached');
@@ -91,10 +120,17 @@ const loginHandler = (req, res) => {
       } else {
         console.log(`${body.data.logEmail} has logged in`);
         console.log(response);
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        //JWT created here
+        // response is an array
+        const token = sign(response, process.env.JWT_SECRET);
+        //add secure when pushing to Heroku
+        res.writeHead(200, {
+          'Set-Cookie': `jwt=${token}; HttpOnly; Max-Age=86400`,
+          'Content-Type': 'text/plain'
+        });
         res.end(JSON.stringify({
           message: 'Authentication Success!',
-          route: '/index',
+          route: '/',
         }));
       }
     });
@@ -125,9 +161,13 @@ const registrationHandler = (req, res) => {
               .then((feedback) => {
                 if (feedback) {
                   // CREATE USER PROFILE!!!
-                  res.writeHead(200, { 'Content-Type': 'text/html' });
+                  const token = sign(feedback, process.env.JWT_SECRET);
+                  //add secure when pushing to Heroku
+                  res.writeHead(200, {
+                    'Set-Cookie': `jwt=${token}; HttpOnly; Max-Age=86400`,
+                    'Content-Type': 'text/plain'
+                  });
                   res.end(JSON.stringify({
-                    // ADD JWT COOKIE INFO
                     message: 'Registration Success!',
                     route: '/profile',
                   }));
@@ -139,7 +179,7 @@ const registrationHandler = (req, res) => {
                 }
               })
               .catch(err => console.log(err));
-              
+
           }
         });
       }
@@ -150,7 +190,7 @@ const registrationHandler = (req, res) => {
 module.exports = {
   staticHandler,
   listHandler,
-  profileHandler,
+  profileDataHandler,
   loginHandler,
   registrationHandler,
 };
