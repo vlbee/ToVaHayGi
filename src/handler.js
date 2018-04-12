@@ -79,9 +79,7 @@ const loginHandler = (req, res) => {
     console.log(body);
     body = JSON.parse(body);
     console.log(body);
-    const userDetails = [body.data.logEmail, body.data.logPassword];
-    // compare Hashed pw with bcrypt COMPARE
-    // YEAH!! HASH THAT!
+    let userDetails = [body.data.logEmail, body.data.logPassword];
     loginAuth(userDetails, (error, response) => {
       console.log('Login Auth reached');
       if (error) {
@@ -91,8 +89,8 @@ const loginHandler = (req, res) => {
           message: 'Authentication Failure!',
         }));
       } else {
-        console.log(`${body.data.email} has logged in`);
-        console.log(response.id);
+        console.log(`${body.data.logEmail} has logged in`);
+        console.log(response);
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end(JSON.stringify({
           message: 'Authentication Success!',
