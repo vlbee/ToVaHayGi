@@ -133,9 +133,11 @@ const registrationHandler = (req, res) => {
               .then((feedback) => {
                 if (feedback) {
                   // CREATE USER PROFILE!!!
-                  res.writeHead(200, { 'Content-Type': 'text/html' });
+                  const token = sign(feedback, process.env.JWT_SECRET);
+                  //add secure when pushing to Heroku
+                  res.writeHead(200, { 'Set-Cookie': `jwt=${token}; HttpOnly; Max-Age=86400`,
+                  'Content-Type': 'text/plain' });
                   res.end(JSON.stringify({
-                    // ADD JWT COOKIE INFO
                     message: 'Registration Success!',
                     route: '/profile',
                   }));

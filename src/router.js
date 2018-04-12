@@ -17,7 +17,7 @@ const router = (req, res) => {
         if (req.headers.cookie){
             let { jwt } = parse(req.headers.cookie)
             verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
-                if (!decoded) { //if not logged in
+                if (err || !decoded) { //if not logged in
                     staticHandler('public/auth.html', res);
                 } else {
                     staticHandler('public/list.html', res);
@@ -29,11 +29,6 @@ const router = (req, res) => {
             staticHandler('public/auth.html', res);
         }
         
-        
-        
-        // else {
-        //     staticHandler('public/list.html', res)
-        // }
     } else if (endpoint === '/login') {
         //this comes in from auth.html to authenticate user login
         //this will redirect to index.html if authorised
@@ -48,6 +43,14 @@ const router = (req, res) => {
     }
     else if (endpoint === '/list') {
         listHandler(req, res);
+    } 
+    else if (endpoint === '/profile') {
+        // let { jwt } = parse(req.headers.cookie)
+        //     verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
+        //         console.log(decoded);
+        //     });
+
+        staticHandler('public/profile.html', res);
     } else if (endpoint === '/usernewprofile') {
         profileHandler(req, res);
     } else if (endpoint.indexOf('public') !== -1) {
