@@ -1,7 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const querystring = require("querystring");
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const getListData = require("./queries/getListData");
 const postProfileData = require("./queries/postProfileData");
 const loginAuth = require("./queries/loginAuth");
@@ -118,13 +118,41 @@ const registrationHandler = (req, res) => {
   });
   req.on("end", () => {
     body = JSON.parse(body);
-    // HASH BCRYPT PW
-    let userDetails = [body.data.regEmail, body.data.regPassword];
-    console.log('handler:', userDetails);
 
-    checkNewUserExists(userDetails)
-      .then(addNewUser)
-      .catch((err) => console.log(err))
+    // const hashPass = (password, userData, cb) => {
+    //   bcrypt.genSalt(10, (err, salt) => {
+    //     if (err) {data
+    //       cb(err);
+    //     } else {
+    //       userData.salt = salt;
+    //       bcrypt.hash(password, salt, cb);
+    //     }
+    //   })
+    // };
+    // var x = hashPass(body.data.regPassword, body.data, (err, res) => {});
+    // HASH BCRYPT PW
+
+    let userDetails = [body.data.regEmail];
+
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) console.log(err);
+      else {
+        bcrypt.hash(body.data.regPassword, salt, (err, hashed) => {
+          if (err) console.log(err);
+          else {
+            console.log("inside bcrypt.hash!!");
+            userDetails.push(hashed);
+            userDetails.push(salt);
+            checkNewUserExists(userDetails)
+            .then(addNewUser)
+            .catch((err) => console.log(err))
+          }
+        })
+      }
+    })
+
+
+
 
   }); 
 };
