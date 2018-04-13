@@ -4,6 +4,7 @@ const {
     listHandler,
     profileHandler,
     loginHandler,
+    logoutHandler,
     registrationHandler
 } = require('./handler');
 const { parse } = require('cookie');
@@ -36,6 +37,11 @@ const router = (req, res) => {
         //this comes in from auth.html to authenticate user login
         //this will redirect to index.html if authorised
         loginHandler(req, res);
+    } 
+    else if (endpoint === '/logout') {
+        //this comes in from auth.html to authenticate user login
+        //this will redirect to index.html if authorised
+        logoutHandler(req, res);
     } else if (endpoint === '/register') {
         //this comes in from auth.html to sign up a user
         //this will redirect to profile.html (editable state)
