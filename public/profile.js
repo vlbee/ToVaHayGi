@@ -1,22 +1,39 @@
 var updateForm = document.getElementById("updateProfile");
-var formFields = updateForm.childNodes;
+var profileView = document.getElementById("viewZone");
 
-var username = document.getElementById("username");
-var firstname = document.getElementById("firstname");
-var lastname = document.getElementById("lastname");
-var email = document.getElementById("email");
-var cohort = document.getElementById("cohort");
-var city = document.getElementById("city");
-var aboutme = document.getElementById("aboutme");
+
+var updateButton = document.getElementById("updateButton");
+var formFields = updateForm.childNodes;
+var profileParas = profileView.childNodes;
+
+console.log(profileParas);
+
+updateButton.addEventListener("click", function(e) {
+    e.preventDefault();
+    const updateDetails = packageFormData(updateForm);
+    console.log(updateDetails);
+    clientRequest('PUT', '/profile-update', updateDetails, function(response) {
+        console.log("This is the response afetr Update: ", response);
+        window.location.replace('/profile');
+        // populateUserProfile(response);
+    });
+
+});
 
 function populateUserProfile(userData) {
   var parsedData = userData[0];
-  console.log("Parsed data", parsedData);
+//   console.log("Parsed data", parsedData);
 
   formFields.forEach(function(item) {
     if (item.name) {
-        console.log(item.name);
+        // console.log(item.name);
         item.value = parsedData[item.name];
+    }
+  });
+
+  profileParas.forEach(function(item) {
+    if (item.id) {
+        item.innerText = parsedData[item.id];
     }
   });
 

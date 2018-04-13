@@ -1,14 +1,14 @@
 const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
-// const pgpromise = require('pg-promise');
 const bcrypt = require('bcrypt');
-const getListData = require('./queries/getListData');
-const postProfileData = require('./queries/postProfileData');
-const loginAuth = require('./queries/loginAuth');
-const { checkNewUserExists, addNewUser } = require('./queries/registerUser');
 const { parse } = require('cookie');
 const { sign, verify } = require('jsonwebtoken');
+
+const getListData = require('./queries/getListData');
+const updateUser = require('./queries/updateUser');
+const loginAuth = require('./queries/loginAuth');
+const { checkNewUserExists, addNewUser } = require('./queries/registerUser');
 const getProfileData = require('./queries/getProfileData');
 
 const staticHandler = (req, res) => {
@@ -96,6 +96,38 @@ const profileDataHandler = (req, res) => {
     });
   })
 };
+
+const profileUpdateHandler = (req, res) => {
+  // console.log(req);
+  let body = '';
+  req.on('data', (chunk) => {
+    body += chunk;
+  });
+  req.on('end', () => {
+    console.log(JSON.parse(body).data);
+    body = JSON.parse(body);
+    let inputData = [];
+    for (let item in body.data) {
+      console.log(body.data[item]);
+      inputData.push(body.data[item]);
+    }
+    console.log(inputData);
+    let { jwt } = parse(req.headers.cookie)
+    verify(jwt, process.env.JWT_SECRET, (err, decoded) => {
+  
+      updateUser(decoded.userId, inputData, (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          let profileData = JSON.stringify(result);
+          console.log(profileData);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(profileData);
+        }
+      })
+    })
+  })
+}
 
 
 // UPDATE PROFILE 
@@ -215,6 +247,7 @@ module.exports = {
   jwtHandler,
   listHandler,
   profileDataHandler,
+  profileUpdateHandler,
   loginHandler,
   registrationHandler,
 };

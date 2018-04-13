@@ -3,6 +3,7 @@ const {
     jwtHandler,
     listHandler,
     profileDataHandler,
+    profileUpdateHandler,
     loginHandler,
     registrationHandler
 } = require('./handler');
@@ -36,24 +37,27 @@ const router = (req, res) => {
         //this comes in from auth.html to authenticate user login
         //this will redirect to index.html if authorised
         loginHandler(req, res);
-    } else if (endpoint === '/register') {
+    } 
+    else if (endpoint === '/register') {
         //this comes in from auth.html to sign up a user
         //this will redirect to profile.html (editable state)
         console.log("register route reached");
         registrationHandler(req, res);
-    } else if (endpoint === '/index') {
+    } 
+    else if (endpoint === '/index') {
         staticHandler('public/list.html', res);
     }
     else if (endpoint === '/list') {
         listHandler(req, res);
     }
     else if (endpoint === '/profile') {
-
         staticHandler('public/profile.html', res);
     }
     else if (endpoint === '/profile-data'){
         profileDataHandler(req, res); 
-
+    }
+    else if (endpoint === '/profile-update') {
+        profileUpdateHandler(req, res);
     }
     else if (endpoint.indexOf('public') !== -1) {
         staticHandler(endpoint, res);
