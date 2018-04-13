@@ -29,3 +29,9 @@ function packageFormData(form) {
   }
   return JSON.stringify(output);
 }
+
+function logoutRedirection(response){
+  window.setTimeout(() => {
+      window.location.replace(response.route);
+    }, 1000);
+}

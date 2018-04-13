@@ -136,6 +136,33 @@ const loginHandler = (req, res) => {
   });
 };
 
+const logoutHandler = (req, res) => {
+  console.log('Logout handler reached');
+  console.log(`user has logged out`);
+  res.writeHead(200, {
+    'Set-Cookie': `jwt=null; HttpOnly; Max-Age=0`,
+    'Content-Type': 'text/plain',
+  });
+  res.end(JSON.stringify({
+    message: 'Logout success!',
+    route: '/',
+  }));
+    // deleteJwt((error, response) => {
+    //   if (error) {
+    //     console.log('Error:', error);
+    //     res.writeHead(200, { 'Content-Type': 'text/plain' });
+    //     res.end(JSON.stringify({
+    //       message: 'Jwt deletion error',
+    //     }));
+    //   } else {
+    //     res.end(JSON.stringify({
+    //       message: 'Logout success!',
+    //       route: '/',
+    //     }));
+    //   }
+    // });
+};
+
 const registrationHandler = (req, res) => {
   console.log('registration handler reached');
   let body = '';
@@ -191,5 +218,6 @@ module.exports = {
   listHandler,
   profileHandler,
   loginHandler,
+  logoutHandler,
   registrationHandler,
 };
