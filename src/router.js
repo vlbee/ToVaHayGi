@@ -2,7 +2,8 @@ const {
     staticHandler,
     jwtHandler,
     listHandler,
-    profileHandler,
+    profileDataHandler,
+    profileUpdateHandler,
     loginHandler,
     logoutHandler,
     registrationHandler
@@ -63,17 +64,17 @@ const router = (req, res) => {
     }
     else if (endpoint === '/list') {
         listHandler(req, res);
-    } 
+    }
     else if (endpoint === '/profile') {
-        // let { jwt } = parse(req.headers.cookie)
-        //     verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
-        //         console.log(decoded);
-        //     });
-
         staticHandler('public/profile.html', res);
-    } else if (endpoint === '/usernewprofile') {
-        profileHandler(req, res);
-    } else if (endpoint.indexOf('public') !== -1) {
+    }
+    else if (endpoint === '/profile-data'){
+        profileDataHandler(req, res); 
+    }
+    else if (endpoint === '/profile-update') {
+        profileUpdateHandler(req, res);
+    }
+    else if (endpoint.indexOf('public') !== -1) {
         staticHandler(endpoint, res);
     }
     //TO DO: add paths: create or update profile
