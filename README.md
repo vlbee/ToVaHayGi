@@ -1,6 +1,6 @@
 # Database & Authentication Week Project: StackMatch
 
-Create a simple webapp for the FAC community, where FAC alums and students could connect with each other based on their technical stack skills. 
+Create a simple web app for the FAC community, where FAC alums and students could connect with each other based on their technical stack skills. 
 
 --------------------
 
@@ -19,38 +19,55 @@ Create a simple webapp for the FAC community, where FAC alums and students could
 8. STRETCH GOAL - As a user, I can invite other community members that match the stack requiments to join my project. 
 
 
-### Key Project Requirements
+### Key Project Database Requirements (week 1)
 
-1. Simple web app with a node server and a database
-2. DB includes schema documentation and is hosted on Heroku. 
-3. DB built with PostgreSQL 
-4. DB Security concerns appropriately considered (ie. script injections)
-5. Content dynamic, but DOM manipulation kept to a minimum
-6. Mobile-first design
-7. Clear user journey 
-8. Clear software architecture planned out. 
++ [x] Simple web app with a node server and a database
++ [x] DB includes schema documentation
++ [ ] DB is hosted on Heroku. 
++ [x] DB built with PostgreSQL 
++ [x] DB Security concerns appropriately considered (ie. script injections)
++ [ ] Content dynamic, but DOM manipulation kept to a minimum
++ [ ] Mobile-first design
++ [ ] Clear user journey 
++ [x] Clear software architecture planned out. 
 
-*Authentication Requirements to be added*
+### Key Project Authentication Requirements (week 2)
++ [x] Login form with 2 fields - username and password
++ [x] Client-side _and_ server-side validation on login form, including error handling that provides feedback to users
++ [x] Users only have to log in once (i.e. implement a cookie-based session on login)
++ [x] Username is visible on each page of the site after logging in
++ [ ] Any user-submitted content should be labelled with the authors username
++ [x] Website content should be stored in a database
+
+### Stretch goals
++ [ ] CSS
++ [ ] Log Out and Account Deletion option
 
 --------------------
 
 ### Instructions on how to run the project locally
 
-1.  `git clone https://github.com/fac-13/ToVaHayGi.git`
-    
-2.  `npm i`
-    
-3.  Set up a local database as per below instructions:
-    
+ 1. Local DB Build
 
--   Connect to postgres, by typing `psql` in the terminal on MAC, and `sudo -u postgres psql` on ubuntu.
--   Create the database by typing `CREATE DATABASE [the name of the database];`. (best not to use a hyphen `-` in the database name, as this can cause issues in the following steps)
--   Create a superuser with a password by typing `CREATE USER [the new username] WITH SUPERUSER PASSWORD '[the password of the database]';` (the password needs to be in quotes, otherwise you get an error).
--   Change ownership of the database to the new user by typing `ALTER DATABASE [name of the database] OWNER TO [the new username];`
--   Add a config.env file in the root folder and add the database's url in this format: `DATABASE_URL = postgres://[username]:[password]@localhost:5432/[database]`. The database name needs to be in lower case.
+    i.  `git clone https://github.com/fac-13/ToVaHayGi.git`
+    
+    ii.  `npm i`
+    
+    iii.  Set up a local database as per below instructions:
+    
+    - Connect to postgres, by typing `psql` in the terminal on MAC, and `sudo -u postgres psql` on ubuntu.
+    - Create the database by typing `CREATE DATABASE [the name of the database];`. (best not to use a hyphen `-` in the database name, as this can cause issues in the following steps)
+    - Create a superuser with a password by typing `CREATE USER [the new username] WITH SUPERUSER PASSWORD '[the password of the database]';` (the password needs to be in quotes, otherwise you get an error).
+    - Change ownership of the database to the new user by typing `ALTER DATABASE [name of the database] OWNER TO [the new username];`
+    - Add a config.env file in the root folder and add the database's url in this format: `DATABASE_URL = postgres://[username]:[password]@localhost:5432/[database]`. The database name needs to be in lower case.
 
-4.  Build the database by connecting to postgres and typing `\i` \+ correct path + `/ToVaHayGi/src/database/db_build.sql`
-5.  Exit psql and run `npm start`
+    iv.  Build the database by connecting to postgres and typing `\i` \+ correct path + `/ToVaHayGi/src/database/db_build.sql`
+    
+    v.  Exit psql and run `npm start`
+
+ 2. Set Env Variables
+
+ 3. Navigate to localhost:4000 and register as a user to view! (Currently no logout option or delete account option)
 
 --------------------
 
@@ -80,9 +97,11 @@ Create a simple webapp for the FAC community, where FAC alums and students could
 #### Table - users
 - primary key
 - handle
+- email
+- pw
+- salt
 - first_name
 - surname
-- email
 - cohort
 - location
 - about_me (STRETCH)

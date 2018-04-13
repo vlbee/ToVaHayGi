@@ -1,4 +1,5 @@
-const nav = document.getElementById('nav-profile');
+const nav = document.getElementById('nav');
+// const navProfile = document.getElementById('nav-profile');
 
 // check if sessionStorage has data
 // if not, do XHR with jwtData route
@@ -7,7 +8,24 @@ const nav = document.getElementById('nav-profile');
 
 function populateNav() {
   const email = sessionStorage.getItem('email');
-  nav.innerText = email;
+  navProfile.textContent = email;
+
+  //logout button
+  var logout = document.createElement("button");
+  logout.className = 'logout';
+  logout.textContent = 'Logout';
+  nav.appendChild(logout);
+  logout.addEventListener("click", function(){
+    console.log('logout clicked')
+    clientRequest('GET', '/logout', null, logoutRedirection);
+  })
+}
+
+function logoutRedirection(response){
+  console.log(response);
+  window.setTimeout(() => {
+      window.location.replace(response.route);
+    }, 500);
 }
 
 function setStorage(jwtData) {
@@ -21,5 +39,6 @@ function setStorage(jwtData) {
     populateNav();
   } else {
     clientRequest('GET', '/session', null, setStorage);
+    
   }
 }());
