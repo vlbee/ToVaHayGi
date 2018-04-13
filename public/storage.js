@@ -12,7 +12,7 @@ function populateNav() {
   link.textContent = email;
   link.setAttribute('href', '/profile'); 
   navProfile.appendChild(link); 
-  
+
   //logout button
   var logout = document.createElement("button");
   logout.className = 'logout';
@@ -26,6 +26,7 @@ function populateNav() {
 
 function logoutRedirection(response){
   console.log(response);
+  sessionStorage.clear(); 
   window.setTimeout(() => {
       window.location.replace(response.route);
     }, 500);
