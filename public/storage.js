@@ -13,6 +13,11 @@ function populateNav() {
   link.setAttribute('href', '/profile'); 
   navProfile.appendChild(link); 
 
+  var listLink = document.createElement('a'); 
+  listLink.textContent = "User List";
+  listLink.setAttribute('href', '/index'); 
+  navProfile.appendChild(listLink); 
+
   //logout button
   var logout = document.createElement("button");
   logout.className = 'logout';
