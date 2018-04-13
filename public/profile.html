@@ -32,9 +32,12 @@
         <input id="cohort" type="text" name="cohort" value="" placeholder="" required>
       <label for="">City:</label>
         <input id="city" type="text" name="city" value="" placeholder="" required>
-      <label for="">Looking for work?</label>
-        <input type="radio" name="work_looking_status" value="Y">Yes
-        <input type="radio" name="work_looking_status" value="N">No
+      <label for="work_looking_status">Looking for work?</label>
+        <select name="work_looking_status">
+          <option value="Y">Yes</option>
+          <option value="N">No</option>
+          <option value="~" selected>Maybe</option>
+        </select>
       <label for="">About me:</label>
         <textarea id="about_me" name="about_me"></textarea>
       <button type="submit" id="updateButton" name="updateButton">Update profile</button>

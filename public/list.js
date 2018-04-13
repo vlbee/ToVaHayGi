@@ -1,7 +1,7 @@
 /* eslint-disable */
 // Variables
 var usersList = document.getElementById('js-users-list');
-var navProfile = document.getElementById('nav-profile');
+// var navProfile = document.getElementById('nav-profile');
 
 // User List Population
 

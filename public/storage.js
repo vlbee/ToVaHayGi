@@ -1,5 +1,5 @@
 const nav = document.getElementById('nav');
-// const navProfile = document.getElementById('nav-profile');
+const navProfile = document.getElementById('nav-profile');
 
 // check if sessionStorage has data
 // if not, do XHR with jwtData route
