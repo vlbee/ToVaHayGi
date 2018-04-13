@@ -1,14 +1,15 @@
 const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
-// const pgpromise = require('pg-promise');
 const bcrypt = require('bcrypt');
-const getListData = require('./queries/getListData');
-const postProfileData = require('./queries/postProfileData');
-const loginAuth = require('./queries/loginAuth');
-const { checkNewUserExists, addNewUser } = require('./queries/registerUser');
 const { parse } = require('cookie');
 const { sign, verify } = require('jsonwebtoken');
+
+const getListData = require('./queries/getListData');
+const updateUser = require('./queries/updateUser');
+const loginAuth = require('./queries/loginAuth');
+const { checkNewUserExists, addNewUser } = require('./queries/registerUser');
+const getProfileData = require('./queries/getProfileData');
 
 const staticHandler = (req, res) => {
   const extension = req.split('.')[1]; // url or query string?
@@ -73,29 +74,85 @@ const listHandler = (req, res) => {
   });
 };
 
-const profileHandler = (req, res) => {
-  console.log('Profile handler reached');
+const profileDataHandler = (req, res) => {
+
+  let { jwt } = parse(req.headers.cookie)
+  verify(jwt, process.env.JWT_SECRET, (err, decoded) => {
+    console.log("Decoded ID:", decoded);
+
+    getProfileData(decoded.userId, (error, result) => {
+      if (error) {
+        // res.writeHead(500, 'Content-Type:text/html');
+        // res.end(
+        //   '<h1>Sorry, there was a problem getting profile information<h1>'
+        // );
+        console.log(error);
+      } else {
+        // console.log('Profile data handler result:', result); 
+        let profileData = JSON.stringify(result);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(profileData);
+      }
+    });
+  })
+};
+
+const profileUpdateHandler = (req, res) => {
+  // console.log(req);
   let body = '';
   req.on('data', (chunk) => {
     body += chunk;
   });
   req.on('end', () => {
-    const values = querystring.parse(body);
-    const result = Object.values(values);
-    result.pop(); // Removes submit button 'submit' valuee from end.
+    console.log(JSON.parse(body).data);
+    body = JSON.parse(body);
+    let inputData = [];
+    for (let item in body.data) {
+      console.log(body.data[item]);
+      inputData.push(body.data[item]);
+    }
+    console.log(inputData);
+    let { jwt } = parse(req.headers.cookie)
+    verify(jwt, process.env.JWT_SECRET, (err, decoded) => {
+  
+      updateUser(decoded.userId, inputData, (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          let profileData = JSON.stringify(result);
+          console.log(profileData);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(profileData);
+        }
+      })
+    })
+  })
+}
 
-    postProfileData(result, (error, response) => {
-      if (error) {
-        console.log('Error:', error);
-        res.writeHead(500, { 'Content-Type': 'text/html' });
-        res.end('<h1>Sorry there was an error</h1>');
-      } else {
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end('Profile added to the database');
-      }
-    });
-  });
-};
+
+// UPDATE PROFILE 
+// console.log('Profile handler reached');
+// let body = '';
+// req.on('data', (chunk) => {
+//   body += chunk;
+// });
+// req.on('end', () => {
+//   const values = querystring.parse(body);
+//   const result = Object.values(values);
+//   result.pop(); // Removes submit button 'submit' valuee from end.
+
+//   postProfileData(result, (error, response) => {
+//     if (error) {
+//       console.log('Error:', error);
+//       res.writeHead(500, { 'Content-Type': 'text/html' });
+//       res.end('<h1>Sorry there was an error</h1>');
+//     } else {
+//       res.writeHead(200, { 'Content-Type': 'text/html' });
+//       res.end('Profile added to the database');
+//     }
+//   });
+// });
+
 
 const loginHandler = (req, res) => {
   console.log('Login handler reached');
@@ -216,7 +273,8 @@ module.exports = {
   staticHandler,
   jwtHandler,
   listHandler,
-  profileHandler,
+  profileDataHandler,
+  profileUpdateHandler,
   loginHandler,
   logoutHandler,
   registrationHandler,

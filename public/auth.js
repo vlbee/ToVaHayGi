@@ -39,14 +39,14 @@ loginButton.addEventListener('click', (e) => {
   } else {
     // backend authentication request
     const loginCredentials = packageFormData(loginForm);
-    clientRequest('POST', '/login', loginCredentials, (response) => {
+    clientRequest('POST', '/login', loginCredentials, function(response) {
       console.log(response);
       if (response.route && response.message === 'Authentication Success!') {
-        window.setTimeout(() => {
+        window.setTimeout(function() {
           window.location.replace(response.route);
         }, 1000);
       } else {
-        setTimeout(() => {
+        setTimeout(function() {
           const errorMessage =
             'Sorry, we have no record of that username/password combination. Please try again or register.';
           loginValidation.innerText = errorMessage;

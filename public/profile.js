@@ -1,82 +1,45 @@
-/* eslint-disable */
-// Variables
-var usersList = document.getElementById('js-users-list');
+var updateForm = document.getElementById("updateProfile");
+var profileView = document.getElementById("viewZone");
 
-// User List Population
 
-function populateUserSkills(userSkills, skillsUl) {
-  if (userSkills) {
-    userSkills.forEach(function (userSkill) {
-      var skill = document.createElement('li');
-      skill.className = 'usercard__skill';
-      skill.textContent = userSkill;
-      skillsUl.appendChild(skill);
-    })
-  }
-};
+var updateButton = document.getElementById("updateButton");
+var formFields = updateForm.childNodes;
+var profileParas = profileView.childNodes;
 
-function createUserCard(user) {
-  var card = document.createElement('article');
-  card.className = 'usercard';
+console.log(profileParas);
 
-  var cardHeader = document.createElement('header');
-  cardHeader.className = 'usercard__header';
-  var name = document.createElement('h2');
-  name.className = 'usercard__headername';
-  var cohort = document.createElement('span');
-  cohort.className = 'usercard__headercohort';
-  var handle = document.createElement('span');
-  handle.className = 'usercard__headerhandle';
-  cardHeader.appendChild(name);
-  cardHeader.appendChild(cohort);
-  cardHeader.appendChild(handle);
+updateButton.addEventListener("click", function(e) {
+    e.preventDefault();
+    const updateDetails = packageFormData(updateForm);
+    console.log(updateDetails);
+    clientRequest('PUT', '/profile-update', updateDetails, function(response) {
+        console.log("This is the response afetr Update: ", response);
+        window.location.replace('/profile');
+        // populateUserProfile(response);
+    });
 
-  var cardSkills = document.createElement('section');
-  cardSkills.className = 'usercard__body';
-  var skillsList = document.createElement('ul');
-  skillsList.className = 'usercard__bodyskills';
-  populateUserSkills(user.skills, skillsList);
-  cardSkills.appendChild(skillsList);
+});
 
-  var cardFooter = document.createElement('footer');
-  cardFooter.className = 'usercard__footer';
-  var location = document.createElement('span');
-  location.className = 'usercard__footerlocation';
-  var status = document.createElement('span');
-  status.className = 'usercard__footerstatus';
-  var contact = document.createElement('span');
-  contact.className = 'usercard__footercontact';
-  cardFooter.appendChild(location);
-  cardFooter.appendChild(status);
-  cardFooter.appendChild(contact);
+function populateUserProfile(userData) {
+  var parsedData = userData[0];
+//   console.log("Parsed data", parsedData);
 
-  //Appending things
-  card.appendChild(cardHeader);
-  card.appendChild(cardSkills);
-  card.appendChild(cardFooter);
+  formFields.forEach(function(item) {
+    if (item.name) {
+        // console.log(item.name);
+        item.value = parsedData[item.name];
+    }
+  });
 
-  //Adding text content
-  name.textContent = user.first_name + ' ' + user.surname;
-  handle.textContent = user.handle;  
-  cohort.textContent = user.cohort;
-
-  location.textContent = user.city;
-  status.textContent = user.work_looking_status;
-  // contact.textContent = user.contact;
-  return card;
-}
-
-function populateUserList(userData) {
-  userData.forEach(function (user) {
-    var userCard = createUserCard(user);
-    usersList.appendChild(userCard);
+  profileParas.forEach(function(item) {
+    if (item.id) {
+        item.innerText = parsedData[item.id];
+    }
   });
 
 }
 
 // IFFE on load
-(function () {
-
-  clientRequest('GET', '/userlist', null, populateUserList);
-
+(function() {
+  clientRequest("GET", "/profile-data", null, populateUserProfile);
 })();
