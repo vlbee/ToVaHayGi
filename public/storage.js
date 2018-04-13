@@ -23,6 +23,7 @@ function populateNav() {
 
 function logoutRedirection(response){
   console.log(response);
+  sessionStorage.clear();
   window.setTimeout(() => {
       window.location.replace(response.route);
     }, 500);

@@ -10,6 +10,19 @@ const {
 const { parse } = require('cookie');
 const { sign, verify } = require('jsonwebtoken');
 
+const checkJwt = (cookies, url, res) => {
+    let { jwt } = parse(cookies)
+    verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
+        if (err || !decoded) { //if not logged in
+            staticHandler('public/auth.html', res);
+        } else {
+            staticHandler(url, res);
+            
+        }
+    })
+};
+
+
 const router = (req, res) => {
     const endpoint = req.url;
 
@@ -17,17 +30,9 @@ const router = (req, res) => {
         //function to check JWT to see if user is already logged in
         //redirects either to login page or directly to index.html
         if (req.headers.cookie){
-            let { jwt } = parse(req.headers.cookie)
-            verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
-                if (err || !decoded) { //if not logged in
-                    staticHandler('public/auth.html', res);
-                } else {
-                    staticHandler('public/list.html', res);
-                    
-                }
-                
-            });
-        } else { //if not logged in
+            checkJwt(req.headers.cookie, 'public/list.html', res);
+        }
+        else { //if not logged in
             staticHandler('public/auth.html', res);
         }    
     } else if (endpoint === '/session') {
@@ -48,7 +53,13 @@ const router = (req, res) => {
         console.log("register route reached");
         registrationHandler(req, res);
     }else if (endpoint === '/index') {
-        staticHandler('public/list.html', res); 
+
+        if (req.headers.cookie){
+            checkJwt(req.headers.cookie, 'public/list.html', res);
+        }
+        else{
+        staticHandler('public/auth.html', res);             
+        }
     }
     else if (endpoint === '/list') {
         listHandler(req, res);
