@@ -57,7 +57,7 @@ function createUserCard(user) {
   card.appendChild(cardFooter);
 
   //Adding text content
-  name.textContent = user.first_name + ' ' + user.surname;
+  name.textContent = user.first_name + ' ' + user.last_name;
   handle.textContent = user.handle;  
   cohort.textContent = user.cohort;
 
