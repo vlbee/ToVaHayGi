@@ -30,25 +30,10 @@ const router = (req, res) => {
     if (endpoint === '/') {
         //function to check JWT to see if user is already logged in
         //redirects either to login page or directly to index.html
-<<<<<<< HEAD
-        if (req.headers.cookie) {
-            let { jwt } = parse(req.headers.cookie)
-            verify(jwt, process.env.JWT_SECRET, (err, decoded) => {
-                if (err || !decoded) { //if not logged in
-                    staticHandler('public/auth.html', res);
-                } else {
-                    staticHandler('public/list.html', res);
-
-                }
-
-            });
-        } else { //if not logged in
-=======
         if (req.headers.cookie){
             checkJwt(req.headers.cookie, 'public/list.html', res);
         }
         else { //if not logged in
->>>>>>> master
             staticHandler('public/auth.html', res);
         }    
     } else if (endpoint === '/session') {
@@ -68,11 +53,6 @@ const router = (req, res) => {
         //this will redirect to profile.html (editable state)
         console.log("register route reached");
         registrationHandler(req, res);
-<<<<<<< HEAD
-    } 
-    else if (endpoint === '/index') {
-        staticHandler('public/list.html', res);
-=======
     }else if (endpoint === '/index') {
 
         if (req.headers.cookie){
@@ -81,7 +61,6 @@ const router = (req, res) => {
         else{
         staticHandler('public/auth.html', res);             
         }
->>>>>>> master
     }
     else if (endpoint === '/list') {
         listHandler(req, res);
