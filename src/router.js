@@ -14,7 +14,7 @@ const router = (req, res) => {
   const endpoint = req.url;
 
 // home routes & sesssion verification
-  if (endpoint === '/' || endpoint === '/index' || endpoint === '/list') {
+  if (endpoint === '/' || endpoint === '/index') {
     verifyJWT(req, (err, decoded) => {
       if (err || !decoded) {
         staticHandler('public/auth.html', res);
@@ -49,7 +49,7 @@ const router = (req, res) => {
   } else if (endpoint === '/logout') {
     logoutHandler(req, res);
 
-// internal routes
+// protected routes
   } else if (endpoint === '/list') {
     listHandler(req, res);
   } else if (endpoint === '/profile-data') {

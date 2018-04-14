@@ -1,4 +1,4 @@
-const { sign, verify } = require('jsonwebtoken');
+const { verify } = require('jsonwebtoken');
 const { parse } = require('cookie');
 
 // Check JWT and redirect to login page in no session present
@@ -12,6 +12,8 @@ const verifyJWT = (req, cb) => {
   }
 };
 
+
+
 module.exports = {
-  verifyJWT,
+  verifyJWT
 };

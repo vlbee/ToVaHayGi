@@ -56,7 +56,6 @@ const loginAuth = (userDetails, cb) => {
   };
   dbConnect.query(query, (err, res) => {
     if (err) return cb(err);
-
     if (res.rows.length === 0) {
       const loginError = new Error('Login Failure - Email Does Not Exist!');
       cb(loginError);
@@ -101,7 +100,7 @@ const updateUser = (userID, values, cb) => {
 
 const getListData = (cb) => {
   const allUsersWithSkills =
-    'SELECT users.first_name, users.last_name, users.handle, users.cohort, users.city, users.work_looking_status, (SELECT array_agg(skills.skill) FROM skills JOIN user_skills ON user_skills.skill_id = skills.id WHERE user_skills.user_id = users.id) AS "skills" FROM users;';
+    'SELECT users.first_name, users.last_name, users.handle, users.cohort, users.city, users.work_looking_status, (SELECT array_agg(skills.skill) FROM skills JOIN user_skills ON user_skills.skill_id = skills.id WHERE user_skills.user_id = users.id) AS "skills" FROM users WHERE users.first_name IS NOT NULL';
 
   dbquery(allUsersWithSkills, cb);
 };
