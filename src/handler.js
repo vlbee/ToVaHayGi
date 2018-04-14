@@ -2,6 +2,8 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const bcrypt = require('bcrypt');
+const { sign, verify } = require('jsonwebtoken');
+const { parse } = require('cookie');
 
 const {
   checkNewUserExists,
