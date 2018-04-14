@@ -1,3 +1,7 @@
+
+const { parse } = require('cookie');
+const { sign, verify } = require('jsonwebtoken');
+const { verifyJWT } = require('./utilities');
 const {
     staticHandler,
     jwtHandler,
@@ -8,43 +12,37 @@ const {
     logoutHandler,
     registrationHandler
 } = require('./handler');
-const { parse } = require('cookie');
-const { sign, verify } = require('jsonwebtoken');
-
-const checkJwt = (cookies, url, res) => {
-    let { jwt } = parse(cookies)
-    verify(jwt, process.env.JWT_SECRET, (err, decoded)=>{
-        if (err || !decoded) { //if not logged in
-            staticHandler('public/auth.html', res);
-        } else {
-            staticHandler(url, res);
-            
-        }
-    })
-};
-
 
 const router = (req, res) => {
     const endpoint = req.url;
 
-    if (endpoint === '/') {
-        //function to check JWT to see if user is already logged in
-        //redirects either to login page or directly to index.html
-        if (req.headers.cookie){
-            checkJwt(req.headers.cookie, 'public/list.html', res);
-        }
-        else { //if not logged in
-            staticHandler('public/auth.html', res);
-        }    
+    // home routes & sesssion auth verification
+    if (endpoint === '/' || endpoint === '/index' || endpoint === '/list') {
+        verifyJWT(req, (err, decoded) => {
+            if (err || !decoded) { 
+                staticHandler('public/auth.html', res);
+            } else {
+                // could static handler ping decoded payload name to browser?  
+                staticHandler('public/list.html', res);  
+            }
+        }); 
+    } else if (endpoint === '/profile') {
+        verifyJWT(req, (err, decoded) => {
+            if (err || !decoded) { 
+                staticHandler('public/auth.html', res);
+            } else {
+                staticHandler('public/profile.html', res);  
+            }
+        });  
+        
+
     } else if (endpoint === '/session') {
         jwtHandler(req, res);
-    }
-    else if (endpoint === '/login') {
+    } else if (endpoint === '/login') {
         //this comes in from auth.html to authenticate user login
         //this will redirect to index.html if authorised
         loginHandler(req, res);
-    } 
-    else if (endpoint === '/logout') {
+    } else if (endpoint === '/logout') {
         //this comes in from auth.html to authenticate user login
         //this will redirect to index.html if authorised
         logoutHandler(req, res);
@@ -53,32 +51,15 @@ const router = (req, res) => {
         //this will redirect to profile.html (editable state)
         console.log("register route reached");
         registrationHandler(req, res);
-    }else if (endpoint === '/index') {
-
-        if (req.headers.cookie){
-            checkJwt(req.headers.cookie, 'public/list.html', res);
-        }
-        else{
-        staticHandler('public/auth.html', res);             
-        }
-    }
-    else if (endpoint === '/list') {
+    } else if (endpoint === '/list') {
         listHandler(req, res);
-    }
-    else if (endpoint === '/profile') {
-        staticHandler('public/profile.html', res);
-    }
-    else if (endpoint === '/profile-data'){
+    } else if (endpoint === '/profile-data'){
         profileDataHandler(req, res); 
-    }
-    else if (endpoint === '/profile-update') {
+    } else if (endpoint === '/profile-update') {
         profileUpdateHandler(req, res);
-    }
-    else if (endpoint.indexOf('public') !== -1) {
+    } else if (endpoint.indexOf('public') !== -1) {
         staticHandler(endpoint, res);
-    }
-    //TO DO: add paths: create or update profile
-    else {
+    } else {
         res.writeHead(404, {
             'Content-Type': 'text/html'
         });

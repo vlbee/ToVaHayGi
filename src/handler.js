@@ -2,8 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const bcrypt = require('bcrypt');
-const { parse } = require('cookie');
-const { sign, verify } = require('jsonwebtoken');
 
 const {
   checkNewUserExists,
@@ -37,21 +35,6 @@ const staticHandler = (req, res) => {
   });
 };
 
-const jwtHandler = (req, res) => {
-  console.log('jwt handler reached');
-  if (req.headers.cookie) {
-    const { jwt } = parse(req.headers.cookie);
-    verify(jwt, process.env.JWT_SECRET, (err, decoded) => {
-      if (err || !decoded) {
-        // if not logged in
-        console.log(err);
-      } else {
-        res.writeHead(200, { 'content-type': 'application/json' });
-        res.end(JSON.stringify(decoded));
-      }
-    });
-  }
-};
 
 const listHandler = (req, res) => {
   console.log('List handler reached');
@@ -276,7 +259,6 @@ const registrationHandler = (req, res) => {
 
 module.exports = {
   staticHandler,
-  jwtHandler,
   listHandler,
   profileDataHandler,
   profileUpdateHandler,
