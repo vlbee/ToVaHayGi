@@ -5,11 +5,16 @@ const bcrypt = require('bcrypt');
 const { parse } = require('cookie');
 const { sign, verify } = require('jsonwebtoken');
 
-const getListData = require('./queries/getListData');
-const updateUser = require('./queries/updateUser');
-const loginAuth = require('./queries/loginAuth');
-const { checkNewUserExists, addNewUser } = require('./queries/registerUser');
-const getProfileData = require('./queries/getProfileData');
+const {
+  checkNewUserExists,
+  addNewUser,
+  loginAuth,
+  updateUser,
+  getProfileData,
+  getListData
+}
+ = require('./queries');
+
 
 const staticHandler = (req, res) => {
   const extension = req.split('.')[1]; // url or query string?
