@@ -8,7 +8,7 @@ const dbquery = (input, cb) => {
   });
 };
 
-const checkNewUserExists = (userDetails) => 
+const checkNewUserExists = userDetails =>
   new Promise((resolve, reject) => {
     const userEmail = [userDetails[0]];
     const query = {
@@ -26,8 +26,7 @@ const checkNewUserExists = (userDetails) =>
     });
   });
 
-
-const addNewUser = (userDetails) => 
+const addNewUser = userDetails =>
   new Promise((resolve, reject) => {
     if (userDetails) {
       const query = {
@@ -45,7 +44,6 @@ const addNewUser = (userDetails) =>
       resolve();
     }
   });
-
 
 const loginAuth = (userDetails, cb) => {
   const userEmail = [userDetails[0]];
@@ -117,5 +115,5 @@ module.exports = {
   loginAuth,
   updateUser,
   getProfileData,
-  getListData
+  getListData,
 };

@@ -11,10 +11,8 @@ const {
   loginAuth,
   updateUser,
   getProfileData,
-  getListData
-}
- = require('./queries');
-
+  getListData,
+} = require('./queries');
 
 const staticHandler = (req, res) => {
   const extension = req.split('.')[1]; // url or query string?
@@ -49,7 +47,7 @@ const listHandler = (req, res) => {
         res.end(JSON.stringify(userListData));
       }
     });
-  })
+  });
 };
 
 const profileDataHandler = (req, res) => {
@@ -64,7 +62,7 @@ const profileDataHandler = (req, res) => {
         res.end(JSON.stringify(profileData));
       }
     });
-  })
+  });
 };
 
 const profileUpdateHandler = (req, res) => {
@@ -74,8 +72,8 @@ const profileUpdateHandler = (req, res) => {
   });
   req.on('end', () => {
     body = JSON.parse(body);
-    let inputData = [];
-    for (let item in body.data) {
+    const inputData = [];
+    for (const item in body.data) {
       inputData.push(body.data[item]);
     }
     verifyJWT(req, (err, decoded) => {
@@ -88,11 +86,10 @@ const profileUpdateHandler = (req, res) => {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify(profileData));
         }
-      })
-    })
-  })
-}
-
+      });
+    });
+  });
+};
 
 const loginHandler = (req, res) => {
   let body = '';
@@ -127,9 +124,8 @@ const loginHandler = (req, res) => {
 };
 
 const logoutHandler = (req, res) => {
-  console.log(`User has logged out`);
   res.writeHead(200, {
-    'Set-Cookie': `jwt=null; HttpOnly; Max-Age=0`,
+    'Set-Cookie': 'jwt=null; HttpOnly; Max-Age=0',
     'Content-Type': 'text/plain',
   });
   res.end(JSON.stringify({
@@ -192,5 +188,5 @@ module.exports = {
   profileUpdateHandler,
   loginHandler,
   logoutHandler,
-  registrationHandler
+  registrationHandler,
 };

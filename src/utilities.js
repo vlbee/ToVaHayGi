@@ -12,8 +12,6 @@ const verifyJWT = (req, cb) => {
   }
 };
 
-
-
 module.exports = {
-  verifyJWT
+  verifyJWT,
 };
