@@ -41,11 +41,11 @@ Create a simple web app for the FAC community, where FAC alums and students coul
 
 ### Stretch goals
 + [ ] CSS
-+ [ ] Log Out and Account Deletion option
++ [x] Log Out and Account Deletion option
 
 --------------------
 
-### Instructions on how to run the project locally
+### Instructions ohow to run the project locally
 
  1. Local DB Build
 
@@ -120,7 +120,7 @@ Create a simple web app for the FAC community, where FAC alums and students coul
 
 --------------------
 
-### ARCHICTECTURE
+### ARCHITECTURE
 
 ![App architecture](https://i.imgur.com/nyCazrt.jpg) 
 
